@@ -1,0 +1,54 @@
+<div class="ui-g-12 ui-md-6">
+    <p-dataView #dv [value]="programs" [paginator]="true" [rows]="totalRecords"
+    [lazy]="false" [totalRecords]="totalRecords" [loading]="loading" [first]="first" filterBy="title">
+    <p-header>
+        <input type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)">
+        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+    </p-header>
+        <ng-template let-program pTemplate="listItem">
+            <div class="program" pDraggable="prog" dragHandle=".pi-ellipsis-v" (onDragStart)="dragStart($event,program)" (onDragEnd)="dragEnd($event)">
+                <i class="pi pi-ellipsis-v" style="font-size: 3em"></i> 
+                <div class="logo">
+                    <img src="{{fileUrl}}{{program.field_logo}}" alt="" />
+                </div>
+                <div class="drag-title">
+                    {{program.title}}
+                </div>
+
+            </div>
+        </ng-template>
+        <ng-template let-gProgram pTemplate="gridItem">
+                <mat-card class="ui-g-12 ui-md-3 program" pDraggable="prog" (onDragStart)="dragStart($event,gProgram)" (onDragEnd)="dragEnd($event)" dragHandle=".pi-ellipsis-v">
+                    <i class="pi pi-ellipsis-v" style="font-size: 3em"></i> 
+                    <div class="logo">
+                        <img src="{{fileUrl}}{{gProgram.field_logo}}" alt="" />
+                    </div>
+                    <div class="drag-title">
+                      {{gProgram.title}}
+                    </div>
+                </mat-card>
+        </ng-template>
+    <p-footer>
+        <p-dataViewLayoutOptions></p-dataViewLayoutOptions>
+    </p-footer>
+    </p-dataView>
+</div>
+
+<div class="ui-g-12 ui-md-6 dropper">
+    <div class="ui-g-12 ui-md-6 drop-column" pDroppable="prog" (onDrop)="drop($event)">
+    <p-dataView [value]="selectedPrograms">
+        <ng-template let-sprogram pTemplate="listItem">
+                <div class="logo">
+                    <img src="{{fileUrl}}{{sprogram.field_logo}}" alt="" />
+                </div>
+                <div class="drag-title">
+                    {{sprogram.title}}
+                </div>
+        </ng-template>
+    </p-dataView>
+    </div>
+</div>
+
+<button (click)="onward()">
+    Compare Programs
+</button>

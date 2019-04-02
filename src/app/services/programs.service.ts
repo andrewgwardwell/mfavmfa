@@ -5,7 +5,10 @@ import { HttpClient } from '@angular/common/http';
 export class ProgramsService {
   programsUrl = '/api/node/program/';
   constructor(private http: HttpClient) {}
-
+  getSimplePrograms(){
+    let baseUrl = 'api/custom/programs';
+    return this.http.get(baseUrl);
+  }
   getPrograms(params?:any) {
     let offset = params && params.offset ? params.offset : 0;
     let offsetString = `page[offset]=${offset}`;

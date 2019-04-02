@@ -14,14 +14,22 @@ import {MatCardModule} from '@angular/material/card';
 //components
 import { AppComponent } from './app.component';
 import { ProgramsComponent } from './pages/programs/programs.component';
+import { AddProgramComponent } from './shared/add-program/add-program.component';
 //services
 import { ProgramsService } from './services/programs.service';
+//config
+import { environment } from '../environments/environment';
+import { CompareComponent } from './pages/compare/compare.component';
+
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    ProgramsComponent
+    ProgramsComponent,
+    AddProgramComponent,
+    CompareComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +44,8 @@ import { ProgramsService } from './services/programs.service';
     MatCardModule
   ],
   providers: [
-    ProgramsService
+    ProgramsService,
+    { provide: 'environment', useValue: environment }
   ],
   bootstrap: [AppComponent]
 })
