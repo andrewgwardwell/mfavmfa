@@ -1,0 +1,11 @@
+<form (submit)="register()">
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input [(ngModel)]="email" type="text" [ngModelOptions]="{standalone: true}" />
+  </div>
+  <div class="form-group">
+      <label for="password">Password:</label>
+      <input [(ngModel)]="password" type="password" [ngModelOptions]="{standalone: true}" />
+    </div>
+  <button type="submit">Register</button>
+</form>

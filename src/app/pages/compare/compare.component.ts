@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ProgramsService } from 'src/app/services/programs.service';
 
 @Component({
   selector: 'app-compare',
@@ -6,10 +7,11 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./compare.component.scss']
 })
 export class CompareComponent implements OnInit {
-
-  constructor() { }
+  seedPrograms: Array<any>;
+  constructor(private programService: ProgramsService) { }
 
   ngOnInit() {
+
   }
 
 }

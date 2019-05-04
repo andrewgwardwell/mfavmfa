@@ -1,10 +1,15 @@
 {
-    "/api/*": {
-      "target": "http://dev-mfavmfa.pantheonsite.io",
-      "secure": false,
-      "pathRewrite": {
-        "^/api": "/jsonapi"
-      },
-      "changeOrigin": true
-    }
+  "/api/*": {
+    "target": "http://mfavmfa.lndo.site",
+    "secure": false,
+    "pathRewrite": {
+    "^/api": "/jsonapi"
+    },
+    "changeOrigin": true
+  },
+  "/user/*": {
+    "target": "http://mfavmfa.lndo.site",
+    "secure": false,
+    "changeOrigin": true
   }
+}
