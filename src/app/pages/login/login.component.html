@@ -1,3 +1,4 @@
+<p-toast position="top-right"></p-toast>
 <form (submit)="login()">
     <div class="form-group">
       <label for="email">name:</label>
@@ -8,4 +9,10 @@
         <input [(ngModel)]="password" type="password" [ngModelOptions]="{standalone: true}" />
       </div>
     <button type="submit">Login</button>
-  </form>
+</form>
+<button class="logout" (click)="logout()">
+  Logout
+</button>
+<button class="logout" (click)="status()">
+    Status
+</button>

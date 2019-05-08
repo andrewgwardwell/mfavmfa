@@ -11,11 +11,11 @@ import { trigger,state,style,transition,animate } from '@angular/animations';
   animations: [
     trigger('rowExpansionTrigger', [
         state('void', style({
-            transform: 'translateX(-10%)',
+            transform: 'translateY(-10%)',
             opacity: 0
         })),
         state('active', style({
-            transform: 'translateX(0)',
+            transform: 'translateY(0)',
             opacity: 1
         })),
         transition('* <=> *', animate('400ms cubic-bezier(0.86, 0, 0.07, 1)'))
@@ -29,10 +29,15 @@ export class ProgramsComponent implements OnInit {
   public totalPrograms: Array<any>;
   public loading = false;
   public sidebar = false;
+  public genres : any;
+  public residencyTypes: any;
   private relEnts = [
     'field_faculty_cnfiction',
     'field_faculty_fiction',
     'field_faculty_poetry',
+    'field_faculty_cnfiction.field_image',
+    'field_faculty_fiction.field_image',
+    'field_faculty_poetry.field_image',
     // 'field_genre',
     // 'field_residency_type',
   ];
@@ -46,10 +51,19 @@ export class ProgramsComponent implements OnInit {
 
   ngOnInit() {
     // gets the stored programs
+    this.loadTertiaryData();
     this.getProgramsFromLocalStorage();
     // gets the pick list
     this.getSimplePrograms();
 
+  }
+  public loadTertiaryData(){
+    this.entityService.getEntities('taxonomy_term--genre').subscribe((response) => {
+      this.genres = response;
+    });
+    this.entityService.getEntities('taxonomy_term--residency_type').subscribe((response) => {
+      this.residencyTypes = response;
+    });
   }
   public getSimplePrograms() {
     this.loading = true;
@@ -79,6 +93,7 @@ export class ProgramsComponent implements OnInit {
       response.logo = newProgram.field_logo;
       response.genres = newProgram.field_genre.split('|');
       response.residency_type = newProgram.field_residency_type.split('|');
+      response.extras = this.bundleIncluded(response);
       let programs = [...this.programs, response];
       this.programsService.setProgramsToStorage(programs);
       this.getProgramsFromLocalStorage();
@@ -88,6 +103,41 @@ export class ProgramsComponent implements OnInit {
     }, (err) => {
       this.loading = false;
     });
+  }
+
+  public bundleIncluded(response){
+    let included = {
+      people: [],
+      files: []
+    };
+    if(response.included){
+      response.included.forEach((item) => {
+        if(item.type == 'node--person'){
+          included.people.push(item);
+        }
+        if(item.type == 'file--file'){
+          included.files.push(item);
+        }
+      }); 
+    }
+    return this.matchImagesToEntities(included);
+  }
+
+  public matchImagesToEntities(inc) {
+    if(inc.files.length > 0){
+      // people
+      inc.people.forEach((person) => {
+        if(person.relationships.field_image && person.relationships.field_image.data){
+          let id = person.relationships.field_image.data.id;
+          inc.files.forEach((file) => {
+            if(file.id === id){
+              person.image = file;
+            }
+          })
+        }
+      })
+    } 
+    return inc;
   }
 
   public removeProgram(prog: any){

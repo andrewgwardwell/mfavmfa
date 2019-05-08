@@ -1,6 +1,5 @@
 <p-toast position="top-right"></p-toast>
-<div class="container ui-g">
-  <p-sidebar [(visible)]="sidebar" styleClass="ui-sidebar-lg">
+<p-sidebar [(visible)]="sidebar" styleClass="ui-sidebar-lg">
     <!-- <p-blockUI [blocked]="loading" [target]="cnter">
                 <p-progressSpinner></p-progressSpinner>
         </p-blockUI> -->
@@ -10,61 +9,117 @@
         (nextStep)="goToNextStep($event)"
       ></app-add-program>
     </div>
-  </p-sidebar>
-  <div class="menu ui-md-1">
-    <button
-      type="text"
-      (click)="sidebar = true"
-      pButton
-      icon="pi pi-plus"
-      label="Add"
-    ></button>
-  </div>
-  <div
-    class="programs-listing"
-    [ngClass]="{ 'ui-md-offset-6 ui-md-6': sidebar, 'ui-md-11': !sidebar }"
-  >
-    <p-table [value]="programs" [dataKey]="'data.attributes.title'">
-      <ng-template pTemplate="header">
-        <tr>
-          <th></th>
-          <th>Name</th>
-          <th>Address</th>
-          <th>Genres</th>
-          <th>Type</th>
-          <th>Application Deadline</th>
-          <th>Application Fee</th>
-          <th>Actions</th>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="body" let-programData let-program let-expanded="expanded">
-        <tr class="program-row">
-            <td>
-                <div [pRowToggler]="programData">
-                    <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
-                </div>
-          </td>
-          <td class="ui-p-2">{{ program.data.attributes.title }}</td>
-          <td class="ui-p-2">{{ program.data.attributes.field_address }}</td>
-          <td class="ui-p-2">{{ program.genres | join: ", " }}</td>
-          <td class="ui-p-2">{{ program.residency_type | join: ", " }}</td>
-          <td class="ui-p-2">{{ program.data.attributes.field_application_deadline}}</td>
-          <td class="ui-p-2">${{ program.data.attributes.field_fee}}</td>
-          <td class="ui-p-2">
-            <div class="remove-button" (click)="removeProgram(program)">
-              <i class="pi pi-times" style="font-size: 3em"></i>
+</p-sidebar>
+<div class="container ui-g">
+    <div class="menu ui-md-1">
+        <button
+          type="text"
+          (click)="sidebar = true"
+          pButton
+          icon="pi pi-plus"
+          label="Add"
+        ></button>
+      </div>
+
+    <mat-tab-group [ngClass]="{ 'ui-md-offset-6 ui-md-6': sidebar, 'ui-md-11': !sidebar }">
+        <mat-tab>
+          <ng-template mat-tab-label>
+                <i class="pi pi-list" style="font-size: 3em"></i>
+          </ng-template>
+          <ng-template matTabContent>
+              <div
+              class="programs-listing"
+            >
+              <p-table [value]="programs" [dataKey]="'data.attributes.title'">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Address</th>
+                    <th>Genres</th>
+                    <th>Type</th>
+                    <th>Application Deadline</th>
+                    <th>Application Fee</th>
+                    <th>Actions</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-programData let-program let-expanded="expanded">
+                  <tr class="program-row">
+                      <td>
+                          <div [pRowToggler]="programData">
+                              <i [ngClass]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></i>
+                          </div>
+                    </td>
+                    <td class="ui-p-2">{{ program.data.attributes.title }}</td>
+                    <td class="ui-p-2">{{ program.data.attributes.field_address }}</td>
+                    <td class="ui-p-2">{{ program.genres | join: ", " }}</td>
+                    <td class="ui-p-2">{{ program.residency_type | join: ", " }}</td>
+                    <td class="ui-p-2">{{ program.data.attributes.field_application_deadline}}</td>
+                    <td class="ui-p-2">${{ program.data.attributes.field_fee}}</td>
+                    <td class="ui-p-2">
+                      <div class="remove-button" (click)="removeProgram(program)">
+                        <i class="pi pi-times" style="font-size: 3em"></i>
+                      </div>
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="rowexpansion" let-programData>
+                      <tr>
+                          <td [attr.colspan]="8">
+                              <div class="ui-g ui-fluid" style="font-size:16px;padding:20px" [@rowExpansionTrigger]="'active'">
+                                <img src="{{ programData.logo }}" alt="">
+                                <div class="ui-p-2">{{ programData.data.attributes.title }}</div>
+                              </div>
+                          </td>
+                      </tr>
+                  </ng-template>
+              </p-table>
             </div>
-          </td>
-        </tr>
-      </ng-template>
-      <ng-template pTemplate="rowexpansion" let-programData>
-            <tr>
-                <td [attr.colspan]="8">
-                    <img src="{{ programData.logo }}" alt="">
-                    <div class="ui-p-2">{{ programData.data.attributes.title }}</div>
-                </td>
-            </tr>
-        </ng-template>
-    </p-table>
-  </div>
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+                <i class="pi pi-users" style="font-size: 3em"></i>
+          </ng-template>
+          <ng-template matTabContent>
+              <p-dataView #dv [value]="programs" filterBy="data.attributes.title">
+              <p-header>
+                  <input type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)">
+              </p-header>
+                  <ng-template let-prog pTemplate="listItem">
+                      <p-panel>
+                          <p-header>
+                              <div class="logo">
+                                  <img src="{{prog.logo}}" alt="" />
+                              </div>
+                              <div>
+                                  {{prog.data.attributes.title}}
+                              </div>
+                          </p-header>
+                          <div class="people" *ngIf="prog.extras && prog.extras.people.length > 0">
+                              <div class="program--person" *ngFor="let person of prog.extras.people">
+                                  <div class="picture">
+                                      <img src="http://mfavmfa.lndo.site/{{person.image.attributes.uri.url}}" alt="">
+                                  </div>
+                                  <div class="name">
+                                      {{person.attributes.title}}
+                                  </div>
+                                  <div class="bio">
+                                      {{person.attributes.body.value}}
+                                  </div>
+                                  <div class="website">
+                                    <a href="{{person.attributes.field_website}}" target="_blank">
+                                        <i class="pi pi-external-link"></i>
+                                    </a>
+                                  </div>
+                              </div>
+                            </div>
+                      </p-panel>
+                  </ng-template>
+              <p-footer>
+              </p-footer>
+              </p-dataView>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
 </div>

@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import {DataViewModule} from 'primeng/dataview';
@@ -18,6 +19,8 @@ import {FormsModule} from '@angular/forms';
 import {DragDropModule} from 'primeng/dragdrop';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
+import {MatTabsModule} from '@angular/material/tabs';
+import {PanelModule} from 'primeng/panel';
 
 //components
 import { AppComponent } from './app.component';
@@ -27,13 +30,19 @@ import { AddProgramComponent } from './shared/add-program/add-program.component'
 import { ProgramsService } from './services/programs.service';
 import { EntityService } from './services/entity.service';
 import { UserService } from './services/user.service';
+import { AuthService } from './services/auth/auth.service';
 import {MessageService} from 'primeng/api';
 //config
 import { environment } from '../environments/environment';
+// Interceptors
+import { TokenInterceptor } from './services/auth/token.interceptor';
+import { ExpiresInterceptor } from './services/auth/expires.interceptor';
+// Site Structure
 import { CompareComponent } from './pages/compare/compare.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { JoinPipe } from './pipes/join.pipe';
+
 
 @NgModule({
   declarations: [
@@ -63,14 +72,27 @@ import { JoinPipe } from './pipes/join.pipe';
     MessagesModule,
     MessageModule,
     ToastModule,
-    TableModule
+    TableModule,
+    MatTabsModule,
+    PanelModule
   ],
   providers: [
     ProgramsService,
     EntityService,
     UserService,
     MessageService,
-    { provide: 'environment', useValue: environment }
+    AuthService,
+    { provide: 'environment', useValue: environment },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ExpiresInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })

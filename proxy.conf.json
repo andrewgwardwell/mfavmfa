@@ -11,5 +11,10 @@
     "target": "http://mfavmfa.lndo.site",
     "secure": false,
     "changeOrigin": true
+  },
+  "/oauth/*": {
+    "target": "http://mfavmfa.lndo.site",
+    "secure": false,
+    "changeOrigin": true
   }
 }
