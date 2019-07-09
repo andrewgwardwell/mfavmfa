@@ -2,7 +2,7 @@
     <div class="ui-g-12">
         <h2>Add Programs</h2>
     </div>
-<div class="ui-g-12 ui-md-6">
+<div class="ui-g-12 ui-md-12">
     <p-dataView #dv [value]="programs" [paginator]="false" [rows]="totalRecords"
     [lazy]="false" [totalRecords]="totalRecords" [loading]="loading" [first]="first" filterBy="title">
     <p-header>
@@ -11,14 +11,14 @@
     </p-header>
         <ng-template let-program pTemplate="listItem">
             <div class="program" pDraggable="prog" dragHandle=".pi-ellipsis-v" (onDragStart)="dragStart($event,program)" (onDragEnd)="dragEnd($event)">
-                <i class="pi pi-ellipsis-v" style="font-size: 3em"></i> 
-                <div class="logo">
+                <!-- <i class="pi pi-ellipsis-v" style="font-size: 3em"></i>  -->
+                <div class="drag-title ui-g-6">
+                    <h3>{{program.title}}</h3>
+                </div>
+                <div class="logo ui-g-4">
                     <img src="{{program.field_logo}}" alt="" />
                 </div>
-                <div class="drag-title">
-                    {{program.title}}
-                </div>
-                <div class="add-button" (click)="addProgram(program)">
+                <div class="add-button ui-g-1" (click)="addProgram(program)">
                     <i class="pi pi-plus" style="font-size: 3em"></i> 
                 </div>
             </div>
@@ -28,9 +28,9 @@
     </p-dataView>
 </div>
 
-<div class="ui-g-12 ui-md-6 dropper">
+<!-- <div class="ui-g-12 ui-md-6 dropper">
     <div class="ui-g-12 drop-column" pDroppable="prog" (onDrop)="drop($event)">
         <h3><i class="pi pi-plus" style="font-size: 3em"></i> Drop Programs here:</h3>
     </div>
-</div>
+</div> -->
 </div>

@@ -1,5 +1,13 @@
 <p-toast position="top-right"></p-toast>
-<p-sidebar [(visible)]="sidebar" styleClass="ui-sidebar-lg">
+<div style="height: 300px;"
+     leaflet 
+     [leafletOptions]="leafOptions">
+</div>
+<div *ngIf="subStatus !== 'active'" class="not-active">
+  Please, resubscribe:
+  <a routerLink="/account">Account</a>
+</div>
+<p-sidebar *ngIf="subStatus == 'active'" [(visible)]="sidebar" styleClass="ui-sidebar-lg" class="ap-sidebar">
     <!-- <p-blockUI [blocked]="loading" [target]="cnter">
                 <p-progressSpinner></p-progressSpinner>
         </p-blockUI> -->
@@ -10,7 +18,7 @@
       ></app-add-program>
     </div>
 </p-sidebar>
-<div class="container ui-g">
+<div *ngIf="subStatus == 'active'" class="container ui-g">
     <div class="menu ui-md-1">
         <button
           type="text"
@@ -66,9 +74,28 @@
                 <ng-template pTemplate="rowexpansion" let-programData>
                       <tr>
                           <td [attr.colspan]="8">
-                              <div class="ui-g ui-fluid" style="font-size:16px;padding:20px" [@rowExpansionTrigger]="'active'">
-                                <img src="{{ programData.logo }}" alt="">
-                                <div class="ui-p-2">{{ programData.data.attributes.title }}</div>
+                              <div class="ui-g ui-fluid school-details" [@rowExpansionTrigger]="'active'">
+                                <div class="left ui-xs-12 ui-md-3">
+                                  <div class="ui-p-2">
+                                      <h2>{{ programData.data.attributes.title }}</h2>
+                                  </div>
+                                  <img src="{{ programData.logo }}" alt="">
+                                  <div class="alumni">
+                                      <label for="">Selected Alumni:</label>
+                                      <div>{{ programData.data.attributes.field_notable_alumni }}</div>
+                                  </div>
+                                  <div class="website">
+                                      <a href="{{programData.data.attributes.field_website}}" target="_blank">
+                                          <i class="pi pi-external-link"></i>
+                                      </a>
+                                  </div>
+                                  <div class="contact">
+                                      <a href="mailto:{{programData.data.attributes.field_contact}}">{{ programData.data.attributes.field_contact_name}}</a>
+                                  </div>
+                                </div>
+                                <div class="right ui-xs-12 ui-md-9">
+                                  <div *ngIf="programData.data.attributes.body" class="ui-p-2" [innerHTML]="programData.data.attributes.body.processed"></div>
+                                </div>
                               </div>
                           </td>
                       </tr>
@@ -87,13 +114,15 @@
                   <input type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)">
               </p-header>
                   <ng-template let-prog pTemplate="listItem">
-                      <p-panel>
+                      <p-panel class="people-dv">
                           <p-header>
                               <div class="logo">
                                   <img src="{{prog.logo}}" alt="" />
                               </div>
-                              <div>
+                              <div class="title">
+                                 <h3>
                                   {{prog.data.attributes.title}}
+                                 </h3>
                               </div>
                           </p-header>
                           <div class="people" *ngIf="prog.extras && prog.extras.people.length > 0">
@@ -122,4 +151,7 @@
           </ng-template>
         </mat-tab>
       </mat-tab-group>
+      <button (click)="savePrograms()" class="save-comparision">
+        Save Programs
+      </button>
 </div>

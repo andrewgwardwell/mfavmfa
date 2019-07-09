@@ -12,7 +12,17 @@
     "secure": false,
     "changeOrigin": true
   },
+  "/node/*": {
+    "target": "http://mfavmfa.lndo.site",
+    "secure": false,
+    "changeOrigin": true
+  },
   "/oauth/*": {
+    "target": "http://mfavmfa.lndo.site",
+    "secure": false,
+    "changeOrigin": true
+  },
+  "/mfastripe": {
     "target": "http://mfavmfa.lndo.site",
     "secure": false,
     "changeOrigin": true

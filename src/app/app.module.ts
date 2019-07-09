@@ -20,7 +20,11 @@ import {DragDropModule} from 'primeng/dragdrop';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatListModule} from '@angular/material/list';
+import {MatSidenavModule} from '@angular/material/sidenav';
 import {PanelModule} from 'primeng/panel';
+import {StripeCheckoutModule} from 'ng-stripe-checkout';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 
 //components
 import { AppComponent } from './app.component';
@@ -30,6 +34,7 @@ import { AddProgramComponent } from './shared/add-program/add-program.component'
 import { ProgramsService } from './services/programs.service';
 import { EntityService } from './services/entity.service';
 import { UserService } from './services/user.service';
+import { StripeService } from './services/stripe.service';
 import { AuthService } from './services/auth/auth.service';
 import {MessageService} from 'primeng/api';
 //config
@@ -42,6 +47,8 @@ import { CompareComponent } from './pages/compare/compare.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { JoinPipe } from './pipes/join.pipe';
+import { UserComponent } from './pages/user/user.component';
+import { NavigationComponent } from './shared/navigation/navigation.component';
 
 
 @NgModule({
@@ -52,7 +59,9 @@ import { JoinPipe } from './pipes/join.pipe';
     CompareComponent,
     RegisterComponent,
     LoginComponent,
-    JoinPipe
+    JoinPipe,
+    UserComponent,
+    NavigationComponent
   ],
   imports: [
     BrowserModule,
@@ -74,7 +83,11 @@ import { JoinPipe } from './pipes/join.pipe';
     ToastModule,
     TableModule,
     MatTabsModule,
-    PanelModule
+    MatListModule,
+    PanelModule,
+    StripeCheckoutModule,
+    MatSidenavModule,
+    LeafletModule
   ],
   providers: [
     ProgramsService,
@@ -82,6 +95,7 @@ import { JoinPipe } from './pipes/join.pipe';
     UserService,
     MessageService,
     AuthService,
+    StripeService,
     { provide: 'environment', useValue: environment },
     {
       provide: HTTP_INTERCEPTORS,

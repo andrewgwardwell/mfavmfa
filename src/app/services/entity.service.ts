@@ -12,7 +12,6 @@ export class EntityService {
   getEntityById(type:string, id?:string, includes?:Array<string>){
     let naming = this.getClassFromString(type);
     let inc = this.buildIncludes(includes);
-
     let url = this.baseUrl + naming[0] + '/' + naming[1] + '/' + (id?id:'') + inc;
     return this.http.get(url);
   }
@@ -25,5 +24,17 @@ export class EntityService {
       return query;
     }
     return '';
+  }
+  savePrograms(data: any){
+    let url = `/node?_format=json`;
+    return this.http.post(url, data);
+  }
+  getProgram(id: number){
+    let url = `/node/${id}?_format=json`;
+    return this.http.get(url);
+  }
+  getProgramsByUid(uid:any){
+    let url = `${this.baseUrl}node/comparison?filter[uid.uid][value]=${uid}&include=field_programs`;
+    return this.http.get(url);
   }
 }

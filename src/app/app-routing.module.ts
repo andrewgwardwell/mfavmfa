@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { ProgramsComponent } from './pages/programs/programs.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { UserComponent } from './pages/user/user.component';
 import { CompareComponent } from './pages/compare/compare.component';
 import { LoginComponent } from './pages/login/login.component';
 
@@ -31,6 +32,11 @@ const routes: Routes = [
     path: 'programs/compare',
     component: CompareComponent,
     data: { title: 'Compare' }
+  },
+  {
+    path: 'account',
+    component: UserComponent,
+    data: { title: 'User' }
   },
 ];
 

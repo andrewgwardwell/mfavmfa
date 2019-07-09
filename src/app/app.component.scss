@@ -1,0 +1,7 @@
+@import "styles/partials/fonts";
+@import "styles/partials/variables";
+@import "styles/partials/mixins";
+
+body, body > *{
+    font-family: $ssPro !important;
+}

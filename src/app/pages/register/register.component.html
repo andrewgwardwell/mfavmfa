@@ -1,5 +1,9 @@
 <form (submit)="register()">
   <div class="form-group">
+      <label for="name">Username:</label>
+      <input [(ngModel)]="name" type="text" [ngModelOptions]="{standalone: true}" />
+    </div>
+  <div class="form-group">
     <label for="email">Email:</label>
     <input [(ngModel)]="email" type="text" [ngModelOptions]="{standalone: true}" />
   </div>
@@ -9,3 +13,8 @@
     </div>
   <button type="submit">Register</button>
 </form>
+<div *ngIf="registrationSuccess" class="reg-success">
+  <h3>Congratulations! You are successfully registered with MFA vs MFA.</h3>
+  <p>Please, login to begin using the application.</p>
+  <a routerLink="/login"  class="button btn">Login</a>
+</div>

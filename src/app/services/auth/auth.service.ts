@@ -36,7 +36,6 @@ export class AuthService {
     body.append('client_secret', this.client_secret);
     this.http.post(url, body).subscribe((response) => {
       this.storeInfo(response);
-      console.log(this.cachedRequests);
     }, (error) => {
       this.msg.add({severity:'warning', summary:'Please, Login!'});
       this.router.navigate(['/login']);
@@ -76,15 +75,11 @@ export class AuthService {
   }
   
   logout(){
-    // let userInfo = this.getToken();
-    // let url = `${this.baseUrl}/logout?_format=json&_csrf_token=${userInfo.logout_token}`;
-    // return this.http.post(url, {}, {
-    //   headers:
-    //   {
-    //     'X-CSRF-Token': userInfo.csrf_token
-    //   },
-    //   withCredentials: true
-    // });
+    this.removeUserInfo();
+  }
+
+  public removeUserInfo(){
+    localStorage.clear();
   }
 
   public collectFailedRequest(request): void {

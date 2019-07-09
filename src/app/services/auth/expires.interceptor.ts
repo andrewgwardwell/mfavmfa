@@ -24,22 +24,12 @@ export class ExpiresInterceptor implements HttpInterceptor {
       }
     }, (err: any) => {
       if (err instanceof HttpErrorResponse) {
-          console.log(err);
         if (err.status === 401 || err.status === 403) {
-            // if(err.status === 403){
-            //     this.msg.add({severity:'warning', summary:'Please, Login!'});
-            // }
-            // this.router.navigate(['/login']);
-            this.auth.collectFailedRequest(request);
-            let token = this.auth.getToken();
-            if(token){
-                this.auth.refreshToken();
-            } else {
-                if(err.status === 403){
-                    this.msg.add({severity:'warning', summary:'Please, Login!'});
-                }
-                this.router.navigate(['/login']);
+            if(err.status === 403){
+                this.msg.add({severity:'warning', summary:'Please, Login!'});
             }
+            this.auth.logout();
+            this.router.navigate(['/login']);
         }
       }
     });
