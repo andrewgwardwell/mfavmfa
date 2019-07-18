@@ -15,6 +15,7 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
+import { ChartsModule } from 'ng2-charts';
 import {FormsModule} from '@angular/forms';
 import {DragDropModule} from 'primeng/dragdrop';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -25,6 +26,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {PanelModule} from 'primeng/panel';
 import {StripeCheckoutModule} from 'ng-stripe-checkout';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+
 
 //components
 import { AppComponent } from './app.component';
@@ -49,6 +51,8 @@ import { LoginComponent } from './pages/login/login.component';
 import { JoinPipe } from './pipes/join.pipe';
 import { UserComponent } from './pages/user/user.component';
 import { NavigationComponent } from './shared/navigation/navigation.component';
+import { MapComponent } from './shared/map/map.component';
+import { CompChartsComponent } from './shared/comp-charts/comp-charts.component';
 
 
 @NgModule({
@@ -61,7 +65,9 @@ import { NavigationComponent } from './shared/navigation/navigation.component';
     LoginComponent,
     JoinPipe,
     UserComponent,
-    NavigationComponent
+    NavigationComponent,
+    MapComponent,
+    CompChartsComponent
   ],
   imports: [
     BrowserModule,
@@ -87,7 +93,8 @@ import { NavigationComponent } from './shared/navigation/navigation.component';
     PanelModule,
     StripeCheckoutModule,
     MatSidenavModule,
-    LeafletModule
+    LeafletModule,
+    ChartsModule
   ],
   providers: [
     ProgramsService,

@@ -1,8 +1,4 @@
 <p-toast position="top-right"></p-toast>
-<div style="height: 300px;"
-     leaflet 
-     [leafletOptions]="leafOptions">
-</div>
 <div *ngIf="subStatus !== 'active'" class="not-active">
   Please, resubscribe:
   <a routerLink="/account">Account</a>
@@ -148,6 +144,14 @@
               <p-footer>
               </p-footer>
               </p-dataView>
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+                <i class="pi pi-chart-bar" style="font-size: 3em"></i>
+          </ng-template>
+          <ng-template matTabContent>
+            <app-comp-charts [programs]="programs"></app-comp-charts>
           </ng-template>
         </mat-tab>
       </mat-tab-group>

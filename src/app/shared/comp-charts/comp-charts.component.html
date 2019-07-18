@@ -1,0 +1,12 @@
+<div *ngIf="finished">
+    <button (click)="randomize()">{{typeLabel}}</button>
+    <canvas baseChart width="400px" height="400px"
+      [datasets]="lineChartData"
+      [labels]="lineChartLabels"
+      [options]="lineChartOptions"
+      [colors]="lineChartColors"
+      [legend]="lineChartLegend"
+      [chartType]="type"
+      [plugins]="lineChartPlugins">
+    </canvas>
+  </div>

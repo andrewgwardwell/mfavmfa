@@ -185,7 +185,7 @@ export class ProgramsComponent implements OnInit {
 
   public getFromList(prog: any, fieldName: string) {
     let found;
-    if (this.selectablePrograms.length > 0) {
+    if (this.selectablePrograms && this.selectablePrograms.length > 0) {
       this.selectablePrograms.forEach(program => {
         if (program.uuid === prog.uuid && program[fieldName]) {
           found = program[fieldName];
@@ -254,6 +254,7 @@ export class ProgramsComponent implements OnInit {
   }
 
   public removeProgramFromList(progam: any) {
+    if(this.selectablePrograms)
     this.selectablePrograms.forEach((sel, ind) => {
       if (sel.uuid == progam.data.id) {
         this.selectablePrograms.splice(ind, 1);
