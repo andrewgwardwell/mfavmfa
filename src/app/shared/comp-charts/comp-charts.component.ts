@@ -27,7 +27,15 @@ export class CompChartsComponent implements OnInit, OnChanges {
   public lineChartPlugins = [];
   public finished = false;
   public typeLabel = 'Switch to Bar';
-
+  public fields = [
+    {label: 'Quality of Life', fields: ['field_quality_of_life'], type: 'single'},
+    {label: 'Rent Index', fields: ['field_rent_index'], type: 'single'},
+    {label: 'Cost of Living', fields: ['field_cost_of_living'], type: 'single'},
+    // {label: 'Tuition', fields: ['field_tuition'], type: 'single'},
+    {label: 'Application Fee', fields: ['field_fee'], type: 'single'},
+    {label: 'Avg. Duration', fields: ['field_max_duration', 'field_min_duration'], type: 'average'},
+    {label: 'Avg. Class Size', fields: ['field_max_class_size', 'field_min_class_size'], type: 'average'}
+  ];
   constructor() {
 
   }
@@ -48,10 +56,10 @@ export class CompChartsComponent implements OnInit, OnChanges {
       this.lineChartLabels.push(program.data.attributes.title);
       poppedAttributes.push(program.data.attributes);
     });
-    let duration = this.buildDataSet('Avg. Duration', ['field_max_duration', 'field_min_duration'], 'average', poppedAttributes);
-    let classSize = this.buildDataSet('Avg. Class Size', ['field_max_class_size', 'field_min_class_size'], 'average', poppedAttributes);
-    this.lineChartData.push(duration);
-    this.lineChartData.push(classSize);
+    this.fields.forEach((config:any) =>{
+      let dataSet = this.buildDataSet(config.label, config.fields, config.type, poppedAttributes);
+      this.lineChartData.push(dataSet);
+    });
     this.finished = true;
   }
   buildDataSet(label:string, fieldNames:Array<string>, operator:string, values:Array<any>):any{
@@ -59,7 +67,8 @@ export class CompChartsComponent implements OnInit, OnChanges {
     values.forEach((val) => {
       switch(operator){
         case 'single':
-          data.push(val[fieldNames[0]]);
+          let single = val[fieldNames[0]] ? val[fieldNames[0]] : 0;
+          data.push(single);
           break;
         case 'average':
             let count = 0;

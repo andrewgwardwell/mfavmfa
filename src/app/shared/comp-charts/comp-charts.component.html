@@ -1,6 +1,6 @@
 <div *ngIf="finished">
     <button (click)="randomize()">{{typeLabel}}</button>
-    <canvas baseChart width="400px" height="400px"
+    <canvas baseChart width="400" height="200"
       [datasets]="lineChartData"
       [labels]="lineChartLabels"
       [options]="lineChartOptions"
