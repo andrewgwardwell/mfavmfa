@@ -2,11 +2,14 @@ export class Comparison {
     //    _links: any;
        type: Array<any>;
        title: any;
+       id: any;
        field_programs: Array<any>;
         constructor(data: any){
-            let title = data.title || 'Comparison';
-            this.type = [{target_id: data.type}];
-            // this._links = {type: {href:'http://example.com/rest/type/node/page'}};
+            let title:string;
+            let type:string;
+            title = data.title;
+            type = data.type;
+            this.type = [{target_id: type}];
             this.title = [{value: title}];
             if(data.programs){
                 this.field_programs = [];
@@ -14,7 +17,6 @@ export class Comparison {
                     this.field_programs.push(new ComparisonProgram(element));
                 });
             }
-            
         }
 }
 

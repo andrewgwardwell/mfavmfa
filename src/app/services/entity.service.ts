@@ -15,6 +15,12 @@ export class EntityService {
     let url = this.baseUrl + naming[0] + '/' + naming[1] + '/' + (id?id:'') + inc;
     return this.http.get(url);
   }
+  getEntityByName(type: string, name: string, includes?:Array<string>){
+    let naming = this.getClassFromString(type);
+    let inc = this.buildIncludes(includes);
+    let url = `${this.baseUrl}${naming[0]}/${naming[1]}${inc}&filter[title][path]=title&filter[title][value]=${name}&filter[title][operator]==`;
+    return this.http.get(url);
+  }
   getClassFromString(type:string){
     return type.split('--');
   }
@@ -28,6 +34,10 @@ export class EntityService {
   savePrograms(data: any){
     let url = `/node?_format=json`;
     return this.http.post(url, data);
+  }
+  updatePrograms(nid: number, data: any){
+    let url = `/node/${nid}?_format=json`;
+    return this.http.patch(url, data);
   }
   getProgram(id: number){
     let url = `/node/${id}?_format=json`;

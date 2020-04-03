@@ -1,5 +1,22 @@
-<nav class="main-menu">
-    <a routerLink="/programs" routerLinkActive="active">My Programs</a>
-    <a routerLink="/account" routerLinkActive="active">Account</a>
-    <a (click)="logout()">Log Out</a>
+<nav class="main-nav navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="/">
+        <img src="../../../assets/images/fpo-logo.png" alt="mfa vs mfa"/>
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbar">
+        <ul class="navbar-nav">
+            <li *ngIf="user" class="nav-item">
+                <a class="nav-link" routerLink="/programs" routerLinkActive="active">My Programs</a>
+            </li>
+            <li *ngIf="user" class="nav-item">
+                <a class="nav-link" routerLink="/account" routerLinkActive="active">Account</a>
+            </li>
+            <li *ngIf="user" class="nav-item">
+                <a class="nav-link" (click)="logout()">Log Out</a>
+            </li>
+        </ul>
+      </div>
 </nav>

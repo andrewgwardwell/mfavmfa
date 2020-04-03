@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core'
+import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChange } from '@angular/core'
 import { ProgramsService } from '../../services/programs.service';
 import {environment} from '../../../environments/environment';
 

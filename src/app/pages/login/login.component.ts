@@ -46,7 +46,9 @@ export class LoginComponent implements OnInit {
         this.stripeService.getInfo(u.uid).subscribe((info:any) => {
           let status = info.plan.status;
           localStorage.setItem('stripeStatus', status);
+          this.authService.statusChange.next(true);
           this.router.navigate(['/programs']);
+
         }, (err: any) => {
     
         });

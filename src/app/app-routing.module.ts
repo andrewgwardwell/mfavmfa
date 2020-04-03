@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { ProgramsComponent } from './pages/programs/programs.component';
+import { ProgramComponent } from './pages/program/program.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { UserComponent } from './pages/user/user.component';
 import { CompareComponent } from './pages/compare/compare.component';
@@ -27,6 +28,11 @@ const routes: Routes = [
     path: 'programs',
     component: ProgramsComponent,
     data: { title: 'Programs' }
+  },
+  {
+    path: 'program/:name',
+    component: ProgramComponent,
+    data: { title: 'Program' }
   },
   {
     path: 'programs/compare',

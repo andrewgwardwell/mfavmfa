@@ -8,6 +8,7 @@ import { trigger,state,style,transition,animate } from '@angular/animations';
 import { Comparison } from 'src/app/shared/models/comparison/comparison';
 import { MfaUser } from 'src/app/shared/models/user/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: "app-programs",
@@ -54,11 +55,13 @@ export class ProgramsComponent implements OnInit {
   public totalPrograms: Array<any>;
   public loading = false;
   public sidebar = false;
+  public hasComparison = false;
   public genres: any;
   public residencyTypes: any;
   public subStatus: string;
   public user: MfaUser;
-  public comparison: Comparison;
+  public comparison: any;
+  public compNid: number;
   private relEnts = [
     "field_faculty_cnfiction",
     "field_faculty_fiction",
@@ -81,17 +84,37 @@ export class ProgramsComponent implements OnInit {
     this.subStatus = localStorage.getItem("stripeStatus");
     // gets the stored programs
     if (this.subStatus && this.subStatus == "active") {
+      this.loading = true;
       this.user = new MfaUser(this.userService.getInfo());
       this.programs = [];
       this.loadTertiaryData();
       this.getSimplePrograms();
       this.entityService.getProgramsByUid(this.user.uid).subscribe(
         (response: any) => {
-          this.comparison = new Comparison(response);
-          response.included.forEach((program: any) => {
-            program.uuid = program.id;
-            this.goToNextStep(program, false);
-          });
+          if(response.data && response.data.length > 0){
+            let loadArray = [];
+            let included = [];
+            this.hasComparison = true;
+            this.comparison = response.data;
+            this.compNid = response.data[0].attributes.drupal_internal__nid;
+            response.included.forEach((program: any) => {
+              program.uuid = program.id;
+              included.push(program);
+              loadArray.push(this.progloader(program));
+            });
+            const waiter = forkJoin(loadArray);
+            waiter.subscribe((fullProgs) => {
+              fullProgs.forEach((fp, index) => {
+                this.progLoadedFormatter(fp, included[index]);
+                if((fullProgs.length - 1) == index){
+                  this.loading = false;
+                }
+              });
+            });
+          } else {
+            this.loading = false;
+            this.sidebar = true;
+          }
         },
         error => {
           console.log(error);
@@ -120,17 +143,31 @@ export class ProgramsComponent implements OnInit {
       });
   }
   public getSimplePrograms() {
-    this.loading = true;
+    // this.loading = true;
     this.programsService.getSimplePrograms().subscribe(
       (response: any) => {
         this.totalPrograms = response;
+        response.forEach(prog => {
+          let genres = prog.field_genre && prog.field_genre.length > 0 ? prog.field_genre.split("|") : [];
+          let toClassGenres = [];
+          let toClassType = [];
+          genres.forEach(g => {
+            toClassGenres.push(g.replace(/ /g, '-'));
+          });
+          let res_type = prog.field_residency_type ? prog.field_residency_type.split("|") : [];
+          res_type.forEach(t => {
+            toClassType.push(t.replace(/ /g, '-'));
+          })
+          prog.genres = toClassGenres;
+          prog.residency_type = toClassType;
+
+        });
         this.selectablePrograms = response.map(x => Object.assign({}, x));
-        this.loading = false;
         this.removeProgramsFromList();
       },
       error => {
         console.log(error);
-        this.loading = false;
+        // this.loading = false;
       }
     );
   }
@@ -141,6 +178,34 @@ export class ProgramsComponent implements OnInit {
     }
   }
 
+  public progloader(newProgram: any) {
+    return this.entityService.getEntityById("node--program", newProgram.uuid, this.relEnts);
+  }
+
+  public progLoadedFormatter(response: any, newProgram: any){
+    response.logo = newProgram.field_logo
+    ? newProgram.field_logo
+    : this.getFromList(newProgram, "field_logo");
+  let residency_type = newProgram.field_residency_type
+    ? newProgram.field_residency_type
+    : this.getFromList(newProgram, "field_residency_type");
+  let genres = newProgram.field_genre
+    ? newProgram.field_genre
+    : this.getFromList(newProgram, "field_genre");
+  response.genres =
+    genres && genres.length > 0 ? genres.split("|") : "";
+  response.residency_type =
+    residency_type && residency_type.length > 0
+      ? residency_type.split("|")
+      : "";
+    response.extras = this.bundleIncluded(response);
+    let programs = [...this.programs, response];
+    this.programs = programs;
+    this.programsService.setProgramsToStorage(programs);
+    this.removeProgramFromList(response);
+  }
+  
+  // this adds a program to the list
   public goToNextStep(newProgram: any, withMsg = true) {
     this.loading = true;
     this.entityService
@@ -167,8 +232,6 @@ export class ProgramsComponent implements OnInit {
           this.programs = programs;
           this.programsService.setProgramsToStorage(programs);
           this.removeProgramFromList(response);
-          // this.getProgramsFromLocalStorage();
-
           if (withMsg) {
             this.msg.add({
               severity: "success",
@@ -176,6 +239,7 @@ export class ProgramsComponent implements OnInit {
             });
           }
           this.loading = false;
+          this.savePrograms();
         },
         err => {
           this.loading = false;
@@ -245,6 +309,7 @@ export class ProgramsComponent implements OnInit {
         this.removeProgramsFromList();
       }
     });
+    this.savePrograms();
   }
 
   public removeProgramsFromList() {
@@ -262,18 +327,56 @@ export class ProgramsComponent implements OnInit {
     });
   }
   public savePrograms() {
-    let comparison = new Comparison({
-      title: "first comparision",
-      type: "comparison",
-      programs: this.programs
-    });
-    this.entityService.savePrograms(comparison).subscribe(
-      response => {
-        console.log(response);
-      },
-      error => {
-        console.log(error);
-      }
-    );
+    let comparison: Comparison;
+    if(this.hasComparison){
+      comparison = new Comparison({
+        type: 'comparison',
+        title: this.comparison[0].attributes.title || `${this.user.name}-${this.user.uid}-comp`,
+        programs: this.programs
+      });
+      this.entityService.updatePrograms(this.compNid, comparison).subscribe(
+        response => {
+          console.log(response);
+          this.msg.add({
+            severity: "success",
+            summary: `Programs updated!`
+          });
+          this.loading = false;
+        },
+        error => {
+          this.loading = false;
+          this.msg.add({
+            severity: "error",
+            summary: `There was an issue saving your programs!`
+          });
+          console.log(error);
+        }
+      );
+    } else {
+      comparison = new Comparison({
+        title: `${this.user.name}-${this.user.uid}-comp`,
+        type: "comparison",
+        programs: this.programs
+      });
+      this.loading = true;
+      this.entityService.savePrograms(comparison).subscribe(
+        response => {
+          console.log(response);
+          this.msg.add({
+            severity: "success",
+            summary: `Programs saved!`
+          });
+          this.loading = false;
+        },
+        error => {
+          this.loading = false;
+          this.msg.add({
+            severity: "error",
+            summary: `There was an issue saving your programs!`
+          });
+          console.log(error);
+        }
+      );
+    }
   }
 }

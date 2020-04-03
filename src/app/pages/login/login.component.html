@@ -1,18 +1,23 @@
 <p-toast position="top-right"></p-toast>
-<form (submit)="login()">
-    <div class="form-group">
-      <label for="email">name:</label>
-      <input [(ngModel)]="name" type="text" [ngModelOptions]="{standalone: true}" />
+<div class="container login-page">
+  <div class="row justify-content-center align-items-center align-items-stretch">
+    <div class="col col-sm-12 col-md-8 col-lg-6">
+        
+        <form (submit)="login()">
+            <h3>Login</h3>
+            <div class="form-group">
+              <label for="email">Username:</label>
+              <input class="form-control" [(ngModel)]="name" type="text" [ngModelOptions]="{standalone: true}" />
+            </div>
+            <div class="form-group">
+                <label for="inputPassword6">Password:</label>
+                <input type="password" id="inputPassword6" class="form-control" [(ngModel)]="password" type="password" [ngModelOptions]="{standalone: true}" aria-describedby="passwordHelpInline">
+                <small id="passwordHelpInline" class="text-muted">
+                  Must be 8-20 characters long.
+                </small>
+              </div>
+            <button class="btn btn-primary" type="submit">Login</button>
+        </form>
     </div>
-    <div class="form-group">
-        <label for="password">Password:</label>
-        <input [(ngModel)]="password" type="password" [ngModelOptions]="{standalone: true}" />
-      </div>
-    <button type="submit">Login</button>
-</form>
-<button class="logout" (click)="logout()">
-  Logout
-</button>
-<button class="logout" (click)="status()">
-    Status
-</button>
+  </div>
+</div>

@@ -23,9 +23,11 @@ import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatMenuModule} from '@angular/material/menu';
 import {PanelModule} from 'primeng/panel';
 import {StripeCheckoutModule} from 'ng-stripe-checkout';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 
 
 //components
@@ -53,7 +55,7 @@ import { UserComponent } from './pages/user/user.component';
 import { NavigationComponent } from './shared/navigation/navigation.component';
 import { MapComponent } from './shared/map/map.component';
 import { CompChartsComponent } from './shared/comp-charts/comp-charts.component';
-
+import { ProgramComponent } from './pages/program/program.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +69,8 @@ import { CompChartsComponent } from './shared/comp-charts/comp-charts.component'
     UserComponent,
     NavigationComponent,
     MapComponent,
-    CompChartsComponent
+    CompChartsComponent,
+    ProgramComponent
   ],
   imports: [
     BrowserModule,
@@ -94,7 +97,9 @@ import { CompChartsComponent } from './shared/comp-charts/comp-charts.component'
     StripeCheckoutModule,
     MatSidenavModule,
     LeafletModule,
-    ChartsModule
+    ChartsModule,
+    NgbModule,
+    MatMenuModule
   ],
   providers: [
     ProgramsService,

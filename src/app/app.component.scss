@@ -5,3 +5,6 @@
 body, body > *{
     font-family: $ssPro !important;
 }
+
+// global
+@include genreIcon;

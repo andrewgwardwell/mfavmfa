@@ -6,17 +6,19 @@
     <p-dataView #dv [value]="programs" [paginator]="false" [rows]="totalRecords"
     [lazy]="false" [totalRecords]="totalRecords" [loading]="loading" [first]="first" filterBy="title">
     <p-header>
-        <input type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)">
+    <input type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)">
 
     </p-header>
         <ng-template let-program pTemplate="listItem">
             <div class="program" pDraggable="prog" dragHandle=".pi-ellipsis-v" (onDragStart)="dragStart($event,program)" (onDragEnd)="dragEnd($event)">
                 <!-- <i class="pi pi-ellipsis-v" style="font-size: 3em"></i>  -->
                 <div class="drag-title ui-g-6">
-                    <h3>{{program.title}}</h3>
+                    <h3>{{program.title}}</h3><a [routerLink]="['/program', program.title]"><i class="pi pi-external-link"></i></a>
+                    <span *ngFor="let genre of program.genres;" class="genre" [ngClass]='{"icon-fiction":genre == "Fiction", "icon-nf": genre == "Creative-Non-fiction", "icon-poetry": genre == "Poetry"}'></span>
                 </div>
                 <div class="logo ui-g-4">
                     <img src="{{program.field_logo}}" alt="" />
+
                 </div>
                 <div class="add-button ui-g-1" (click)="addProgram(program)">
                     <i class="pi pi-plus" style="font-size: 3em"></i> 

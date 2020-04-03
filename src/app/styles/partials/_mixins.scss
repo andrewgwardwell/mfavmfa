@@ -1,0 +1,38 @@
+@mixin genreIcon{
+    .icon-fiction,
+    .icon-poetry,
+    .icon-nf{
+        width: 20px;
+        height: 20px;
+        display: inline-block;
+        border-radius: 50%;
+        position: relative;
+        color: white;
+        &:after{
+            content: '';
+            display: block;
+            position: absolute;
+
+        }
+    }
+    .icon-fiction{
+        background: green;
+        &:after{
+            content: 'F';
+
+        }
+    }
+    .icon-poetry{
+        background: red;
+        &:after{
+            content: 'P';
+
+        }
+    }
+    .icon-nf{
+        background: yellow;
+        &:after{
+            content: 'NF';
+        }
+    }
+}
