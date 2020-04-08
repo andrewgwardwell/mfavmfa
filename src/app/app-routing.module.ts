@@ -5,7 +5,6 @@ import { ProgramsComponent } from './pages/programs/programs.component';
 import { ProgramComponent } from './pages/program/program.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { UserComponent } from './pages/user/user.component';
-import { CompareComponent } from './pages/compare/compare.component';
 import { LoginComponent } from './pages/login/login.component';
 
 
@@ -33,11 +32,6 @@ const routes: Routes = [
     path: 'program/:name',
     component: ProgramComponent,
     data: { title: 'Program' }
-  },
-  {
-    path: 'programs/compare',
-    component: CompareComponent,
-    data: { title: 'Compare' }
   },
   {
     path: 'account',

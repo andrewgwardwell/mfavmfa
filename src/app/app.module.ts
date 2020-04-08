@@ -47,7 +47,6 @@ import { environment } from '../environments/environment';
 import { TokenInterceptor } from './services/auth/token.interceptor';
 import { ExpiresInterceptor } from './services/auth/expires.interceptor';
 // Site Structure
-import { CompareComponent } from './pages/compare/compare.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { JoinPipe } from './pipes/join.pipe';
@@ -62,7 +61,6 @@ import { ProgramComponent } from './pages/program/program.component';
     AppComponent,
     ProgramsComponent,
     AddProgramComponent,
-    CompareComponent,
     RegisterComponent,
     LoginComponent,
     JoinPipe,

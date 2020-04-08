@@ -112,6 +112,14 @@
               "**/node_modules/**"
             ]
           }
+        },
+        "deploy": {
+          "builder": "@netlify-builder/deploy:deploy",
+          "options": {
+            "outputPath": "dist/ng-mfa",
+            "netlifyToken": "f9962670c11e9d551b1ca17fbc50a4c2265e04b3abf59fc5119220e1816ddc4e",
+            "siteId": ""
+          }
         }
       }
     },
