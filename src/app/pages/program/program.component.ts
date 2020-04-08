@@ -11,6 +11,9 @@ import { Program } from 'src/app/shared/models/program/program';
 export class ProgramComponent implements OnInit {
   public program: any;
   private relEnts = [
+    "field_genre",
+    "field_logo",
+    "field_residency_type",
     "field_faculty_cnfiction",
     "field_faculty_fiction",
     "field_faculty_poetry",
@@ -28,6 +31,7 @@ export class ProgramComponent implements OnInit {
     console.log();
     this.entityService.getEntityByName('node--program', this.route.snapshot.params.name, this.relEnts).subscribe(response => {
       let formatted = this.progLoadedFormatter(response);
+      formatted.logoUrl = this.findLogo(formatted);
       this.program = new Program(formatted);
       console.log(this.program);
     }, error => {
@@ -43,12 +47,20 @@ export class ProgramComponent implements OnInit {
   public bundleIncluded(response) {
     let included = {
       people: [],
-      files: []
+      genre: [],
+      files: [],
+      res_type: []
     };
     if (response.included) {
       response.included.forEach(item => {
         if (item.type == "node--person") {
           included.people.push(item);
+        }
+        if (item.type == "taxonomy_term--genre") {
+          included.genre.push(item);
+        }
+        if (item.type == "taxonomy_term--residency_type") {
+          included.res_type.push(item);
         }
         if (item.type == "file--file") {
           included.files.push(item);
@@ -56,6 +68,22 @@ export class ProgramComponent implements OnInit {
       });
     }
     return this.matchImagesToEntities(included);
+  }
+
+  public findLogo(prog){
+    let file;
+    if(prog.data && prog.data.length > 0){
+      let logoRel = prog.data[0].relationships.field_logo;
+      if(logoRel){
+        let id = logoRel.data.id;
+        prog.extras.files.forEach(f => {
+          if(f.id === id){
+            file = f
+          }
+        });
+      }
+    }
+    return file;
   }
 
   public matchImagesToEntities(inc) {

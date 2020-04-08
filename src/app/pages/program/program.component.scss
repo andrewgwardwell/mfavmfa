@@ -1,0 +1,18 @@
+.program-logo{
+
+        max-width: 100%;
+    
+}
+
+.program--person{
+    .picture {
+      overflow: hidden;
+      border-radius: 50% 50%;
+      height: 150px;
+      width: 150px;
+      img {
+        width: 150px;
+        height: auto;
+      }
+    }
+  }

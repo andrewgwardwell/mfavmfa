@@ -22,6 +22,7 @@ export class Program {
     rentIndex: number;
     tuition: number;
     website: string;
+    logo: any;
     extras: any;
     people: Array<Person> = [];
     constructor(data: any){
@@ -51,6 +52,8 @@ export class Program {
         this.website = attr.field_website;
         this.extras = data.extras;
         let people = this.extras.people;
+        let logo =`http://mfavmfa.lndo.site${data.logoUrl.attributes.uri.url}`
+        this.logo = logo;
         people.forEach(p => {
             let person = new Person(p);
             this.people.push(person);
