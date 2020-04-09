@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import {environment} from '../../environments/environment.prod';
 
 @Injectable()
 export class ProgramsService {
-  programsUrl = '/api/node/program/';
+  programsUrl = `${environment.apiUrl}/api/node/program/`;
   constructor(private http: HttpClient) {}
   getSimplePrograms(){
-    let baseUrl = 'api/custom/programs';
+    let baseUrl = `${environment.apiUrl}/api/custom/programs`;
     return this.http.get(baseUrl);
   }
   // getPrograms(params?:any) {

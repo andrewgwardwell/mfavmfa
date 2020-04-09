@@ -18,7 +18,7 @@
     "changeOrigin": true
   },
   "/oauth/*": {
-    "target": "http://mfavmfa.lndo.site",
+    "target": "https://api.mfavsmfa.com",
     "secure": false,
     "changeOrigin": true
   },

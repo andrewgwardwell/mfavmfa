@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment.prod';
 
 @Injectable()
 export class EntityService {
-  baseUrl: string = '/api/';
+  baseUrl: string = `${environment.apiUrl}/jsonapi/`;
   constructor(private http: HttpClient) { }
 
   getEntities(type:string){
