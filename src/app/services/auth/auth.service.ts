@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
-
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable()
 export class AuthService {
@@ -14,7 +14,7 @@ export class AuthService {
 
   client_secret: string = 'timetime';
   client_uuid: string = '846e0301-6137-46e1-8ace-3b6ce25863f4';
-  authUrl = '/oauth/';
+  authUrl = `${environment.apiUrl}/oauth/`;
   statusChange = new Subject<boolean>();
 
   login(creds: any){
