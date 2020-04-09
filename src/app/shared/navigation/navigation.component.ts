@@ -23,7 +23,10 @@ export class NavigationComponent implements OnInit {
     });
   }
   getUser(){
-    this.user = new MfaUser(this.userService.getInfo());
+    const user = this.userService.getInfo();
+    if(user){
+      this.user = new MfaUser(user);
+    }
   }
   logout(){
     this.auth.logout();

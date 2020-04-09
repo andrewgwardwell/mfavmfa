@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClientJsonpModule } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -28,7 +28,7 @@ import {PanelModule} from 'primeng/panel';
 import {StripeCheckoutModule} from 'ng-stripe-checkout';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-
+import { ReactiveFormsModule } from '@angular/forms';
 
 //components
 import { AppComponent } from './app.component';
@@ -40,6 +40,7 @@ import { EntityService } from './services/entity.service';
 import { UserService } from './services/user.service';
 import { StripeService } from './services/stripe.service';
 import { AuthService } from './services/auth/auth.service';
+import { CampaignService } from './services/campaign.service';
 import {MessageService} from 'primeng/api';
 //config
 import { environment } from '../environments/environment';
@@ -55,6 +56,7 @@ import { NavigationComponent } from './shared/navigation/navigation.component';
 import { MapComponent } from './shared/map/map.component';
 import { CompChartsComponent } from './shared/comp-charts/comp-charts.component';
 import { ProgramComponent } from './pages/program/program.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -68,12 +70,14 @@ import { ProgramComponent } from './pages/program/program.component';
     NavigationComponent,
     MapComponent,
     CompChartsComponent,
-    ProgramComponent
+    ProgramComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    HttpClientJsonpModule,
     MultiSelectModule,
     DataViewModule,
     AutoCompleteModule,
@@ -97,7 +101,8 @@ import { ProgramComponent } from './pages/program/program.component';
     LeafletModule,
     ChartsModule,
     NgbModule,
-    MatMenuModule
+    MatMenuModule,
+    ReactiveFormsModule
   ],
   providers: [
     ProgramsService,
@@ -106,6 +111,7 @@ import { ProgramComponent } from './pages/program/program.component';
     MessageService,
     AuthService,
     StripeService,
+    CampaignService,
     { provide: 'environment', useValue: environment },
     {
       provide: HTTP_INTERCEPTORS,

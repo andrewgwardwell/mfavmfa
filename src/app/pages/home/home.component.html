@@ -1,0 +1,24 @@
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            <h1>MFA vs. MFA</h1>
+            <h3>Coming Soon!</h3>
+        </div>
+        <div class="col-12 col-lg-10 offset-lg-1 text-center">
+            <p>A web app that will help you make the right choice for your Creative Writing MFA. Sign up below to get news such as launch announcement and new features from us.</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center">
+            <form *ngIf="!submitted" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
+                <div class="form-group">
+                    <label for="email">Email:</label>
+                    <input name="email" type="text" formControlName="email" placeholder="your@email.com" required>
+                </div>
+                <button class="btn btn-primary" type="submit" [disabled]="!signUpForm.valid">Submit</button>
+            </form>
+            <div *ngIf="submitted" [innerHtml]="msg">
+            </div>
+        </div>
+    </div>
+</div>
