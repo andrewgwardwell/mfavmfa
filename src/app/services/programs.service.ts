@@ -4,10 +4,10 @@ import {environment} from '../../environments/environment.prod';
 
 @Injectable()
 export class ProgramsService {
-  programsUrl = `${environment.apiUrl}/api/node/program/`;
+  programsUrl = `${environment.apiUrl}/jsonapi/node/program/`;
   constructor(private http: HttpClient) {}
   getSimplePrograms(){
-    let baseUrl = `${environment.apiUrl}/api/custom/programs`;
+    let baseUrl = `${environment.apiUrl}/jsonapi/custom/programs`;
     return this.http.get(baseUrl);
   }
   // getPrograms(params?:any) {
