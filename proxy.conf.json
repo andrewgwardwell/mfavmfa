@@ -1,6 +1,6 @@
 {
   "/api/*": {
-    "target": "http://dev-mfavmfa.pantheonsite.io",
+    "target": "https://api.mfavsmfa.com",
     "secure": false,
     "pathRewrite": {
     "^/api": "/jsonapi"
@@ -8,22 +8,22 @@
     "changeOrigin": true
   },
   "/user/*": {
-    "target": "http://dev-mfavmfa.pantheonsite.io",
+    "target": "https://api.mfavsmfa.com",
     "secure": false,
     "changeOrigin": true
   },
   "/node/*": {
-    "target": "http://dev-mfavmfa.pantheonsite.io",
+    "target": "https://api.mfavsmfa.com",
     "secure": false,
     "changeOrigin": true
   },
   "/oauth/*": {
-    "target": "http://dev-mfavmfa.pantheonsite.io",
+    "target": "http://mfavmfa.lndo.site",
     "secure": false,
     "changeOrigin": true
   },
   "/mfastripe": {
-    "target": "http://dev-mfavmfa.pantheonsite.io",
+    "target": "https://api.mfavsmfa.com",
     "secure": false,
     "changeOrigin": true
   }

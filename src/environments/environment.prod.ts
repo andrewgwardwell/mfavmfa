@@ -1,5 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://dev-mfavmfa.pantheonsite.io',
-  fileUrl: 'https://dev-mfavmfa.pantheonsite.io'
+  apiUrl: 'https://api.mfavsmfa.com',
+  fileUrl: 'https://api.mfavsmfa.com'
 };

@@ -12,9 +12,12 @@ export class AuthService {
   constructor(public http: HttpClient, public router: Router, public msg: MessageService){}
   cachedRequests: Array<HttpRequest<any>> = [];
 
-  client_secret: string = 'timetime';
-  client_uuid: string = '846e0301-6137-46e1-8ace-3b6ce25863f4';
+  // client_secret: string = 'timetime';
+  client_secret: string = 'ageL1JB1@!a3K2Jzj';
+  client_uuid: string = 'c51b094f-1e30-4fe7-a878-94eaff5cfecc';
+  // client_uuid: string = '846e0301-6137-46e1-8ace-3b6ce25863f4';
   authUrl = `${environment.apiUrl}/oauth/`;
+  // authUrl = `/oauth/`;
   statusChange = new Subject<boolean>();
 
   login(creds: any){
