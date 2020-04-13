@@ -1,7 +1,24 @@
 $merriweather : 'Merriweather';
 $quicksand : 'Quicksand';
-$ssPro : 'Source Serif Pro';
+// $ssPro : 'Source Serif Pro';
 
+$green: #acc690;
+$blue: #90c6c5;
+$purple:#aa90c6;
+$red:#c69091;
 
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 1024px,
+  xl: 1200px
+) !default;
 
+$text-muted: white !default;
 
+.btn{
+    color: white;
+}
+small{
+    font-family: $quicksand;
+}

@@ -1,10 +1,21 @@
 @import "styles/partials/fonts";
-@import "styles/partials/variables";
 @import "styles/partials/mixins";
+@import "styles/partials/variables";
+@import '~bootstrap/scss/bootstrap';
 
 body, body > *{
-    font-family: $ssPro !important;
+    font-family: $merriweather !important;
+}
+h1,h2,h3,h4,h5{
+    font-family: $quicksand !important;
+    // font-weight: 900;
+    // color: #525151;
 }
 
 // global
 @include genreIcon;
+
+.mfa-container{
+    max-width: 1100px;
+    margin: 0px auto;
+}
