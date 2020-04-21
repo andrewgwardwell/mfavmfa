@@ -1,10 +1,8 @@
 @import "./../../styles/partials/variables";
-.register{
+.payment-holder{
     padding: 60px;
     min-height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: $green;
-    color: white;
 }

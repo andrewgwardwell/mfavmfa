@@ -5,6 +5,7 @@ import {MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
 import { StripeService } from 'src/app/services/stripe.service';
 import { MfaUser } from 'src/app/shared/models/user/user';
+import { FormBuilder, FormGroup} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -12,10 +13,12 @@ import { MfaUser } from 'src/app/shared/models/user/user';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  name: string;
-  password: string;
-
-  constructor(private authService: AuthService, private msg: MessageService, private userService: UserService, public router: Router, public stripeService: StripeService) { }
+  loginForm: FormGroup = this.fb.group({
+    userName: [''],
+    password: ['']
+  });
+  serverError:string = '';
+  constructor(private authService: AuthService, private msg: MessageService, private userService: UserService, public router: Router, public stripeService: StripeService, public fb: FormBuilder) { }
 
   ngOnInit() {
   }
@@ -31,10 +34,12 @@ export class LoginComponent implements OnInit {
         console.log(error);
     });
   }
+  get userName() { return this.loginForm.get('userName'); }
+  get password() { return this.loginForm.get('password'); }
   login() {
     let data = {
-      'name': this.name,
-      'pass': this.password
+      'name': this.userName.value,
+      'pass': this.password.value
     };
     this.authService.login(data).subscribe((response:any)=>{
       this.authService.storeInfo(response);
@@ -43,21 +48,28 @@ export class LoginComponent implements OnInit {
       this.userService.getUser(response.user_id).subscribe((user:any) => {
         this.userService.storeInfo(user);
         let u = new MfaUser(user);
-        this.stripeService.getInfo(u.uid).subscribe((info:any) => {
-          let status = info.plan.status;
-          localStorage.setItem('stripeStatus', status);
-          this.authService.statusChange.next(true);
-          this.router.navigate(['/programs']);
-
-        }, (err: any) => {
-    
-        });
+        if(u.subscriptionId){
+          this.stripeService.getInfo(u.uid).subscribe((info:any) => {
+            let status = info.plan.status;
+            localStorage.setItem('stripeStatus', status);
+            this.authService.triggerStatusChange(true);
+            this.router.navigate(['/programs']);
+  
+          }, (err: any) => {
+            this.authService.logout();
+          });
+        } else {
+          this.authService.triggerStatusChange(true);
+          this.router.navigate(['/payment']);
+        }
       },(err) => {
-        // fail silently
+
       });
     }, (error)=>{
       if(error.error && error.error.message){
         this.msg.add({severity:'error', summary:`Authentication failed! ${error.error.message}`});
+        this.loginForm.setErrors({server: true});
+        this.serverError = error.error.message;
       }
     });
   }

@@ -22,7 +22,7 @@ export class Program {
     rentIndex: number;
     tuition: number;
     website: string;
-    logo: any;
+    logo: string;
     extras: any;
     people: Array<Person> = [];
     constructor(data: any){
@@ -31,7 +31,7 @@ export class Program {
         this.id = core.id;
         this.title = attr.title;
         this.nid = attr.drupal_internal__nid;
-        this.body = attr.body.processed; 
+        this.body = (attr.body && attr.body.processed) ? attr.body.processed : ''; 
         this.address = attr.field_address;
         this.publications = attr.field_affiliated_programs;
         this.deadline = attr.field_deadline;
@@ -52,8 +52,10 @@ export class Program {
         this.website = attr.field_website;
         this.extras = data.extras;
         let people = this.extras.people;
-        let logo =`http://mfavmfa.lndo.site${data.logoUrl.attributes.uri.url}`
-        this.logo = logo;
+        if(data.logoUrl && data.logoUrl.attributes && data.logoUrl.attributes.uri){
+            let logo =`https://api.mfavsmfa.com${data.logoUrl.attributes.uri.url}`
+            this.logo = logo;
+        }
         people.forEach(p => {
             let person = new Person(p);
             this.people.push(person);

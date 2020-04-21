@@ -1,63 +1,117 @@
-<div *ngIf="program" class="program-detail-wrapper container-fluid">
-    <div class="row d-flex">
-        <div class="col-12 col-md-2">
-            <img class="program-logo" src="{{program.logo}}" alt="">
+<div class="program-detail-wrapper container mt-4 program-body">
+  <div class="row" *ngIf="loading">
+      <div class="col-12">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+  </div>
+  <div *ngIf="!loading && program" class="row d-flex">
+    <div class="col-12 col-lg-2 mt-4 text-center">
+      <img class="program-logo" src="{{ program.logo }}" alt="" />
+      <button
+      type="button"
+      (click)="goToNextStep()"
+      label="Add"
+      class="btn btn-icon mt-4"
+      [ngClass] ="{'btn-secondary': !hasProgram, 'btn-success': hasProgram}"
+        >
+        <i *ngIf="loading" class="pi pi-spin pi-spinner"></i>
+        <i *ngIf="!loading && hasProgram" class="pi pi-check"></i>
+        <i *ngIf="!loading && !hasProgram" class="pi pi-plus"></i>
+        <span>
+            {{ !hasProgram ? 'Add Program' : 'Added'}}
+        </span>
+    </button>
+    </div>
+    <div class="col-12 col-md-10 d-flex flex-column justify-content-center">
+      <div class="row mt-4">
+        <div class="col-12 col-lg-6">
+          <h2 class="d-block">{{ program.title }}</h2>
+          <span class="d-block">{{ program.address }}</span>
+          <a class="d-block" href="{{ program.website }}" target="_blank">
+            {{ program.website }}
+            <i class="pi pi-external-link"></i>
+          </a>
         </div>
-        <div class="col-12 col-md-10 d-flex flex-column justify-content-center">
-            <div class="row">
-                <div class="col-12">
-                    <h2 class="d-inline">{{program.title}}</h2>
-                    <a href="{{program.website}}" target="_blank">
-                            <i class="pi pi-external-link"></i>
-                    </a>
-                </div>
-                <div class="col-12">
-                    <span>{{program.address}}</span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    <span *ngFor="let genre of program.extras.genre;" class="genres">{{genre.attributes.name}}</span>
-                </div>
-                <div class="col-12">
-                        <span>Contact:<a href="mailto:{{program.contact}}">{{ program.contactName}}</a></span>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12 col-md-12">
-                    <div class="about" [innerHTML]="program.body"></div>
-                </div>
-            </div>
-            <div class="row">
-                    <div class="col-12">
-                            <div class="people" *ngIf="program.extras && program.extras.people.length > 0">
-                                <h4>People:</h4>
-                                <div class="people-grid d-flex flex-wrap flex-row justify-content-start">
-                                        <div class="program--person col-12 col-md-3 col-lg-2" *ngFor="let person of program.extras.people">
-                                                <div class="col-12 d-flex justify-content-center">
-                                                    <div class="picture">
-                                                        <img src="http://mfavmfa.lndo.site/{{person.image.attributes.uri.url}}" alt="">
-                                                    </div>
-                                                </div>
-                                                <div class="name col-12 d-flex justify-content-center">
-                                                        <h5>
-                                                            {{person.attributes.title}}
-                                                        </h5>
-                                                        <!-- <a class="website" href="{{person.attributes.field_website}}" target="_blank">
-                                                            <i class="pi pi-external-link"></i>
-                                                        </a> -->
-                                                </div>
-                                                <!-- <div class="program--person__right col-12 col-lg-10">
-                                                    <div class="bio" [innerHTML]="person.attributes.body.value">
-                                                        </div>
-                                                </div> -->
-                                            </div>
-                                </div>
+        <div class="col-12 col-lg-6 text-lg-right">
+          <span
+            *ngFor="let genre of program.extras.genre"
+            class="genres"
+            [ngClass]="{
+              fiction: genre.attributes.name == 'Fiction',
+              nf: genre.attributes.name == 'Creative Non-fiction',
+              poetry: genre.attributes.name == 'Poetry'
+            }"
+            >{{ genre.attributes.name }}</span
+          >
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <span
+            ><a href="mailto:{{ program.contact }}"
+              ><i class="pi pi-envelope"></i>{{ program.contactName }}</a
+            ></span
+          >
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-12 col-md-12">
+          <div class="about" [innerHTML]="program.body"></div>
+        </div>
+      </div>
+      <div class="row" *ngIf="program.people && program.people.length > 0">
+        <div class="col-12">
+          <div class="people">
+            <h3>People</h3>
+            <hr>
+            <div
+              class="people-grid d-flex flex-wrap flex-row justify-content-start"
+            >
+              <div
+                class="program--person"
+                (click)="openModal(personModal)"
+                *ngFor="let person of program.people"
+              >
+                  <div class="card p-2 text-center align-items-center">
+                      <img
+                      class="mt-4"
+                      src="{{person.image}}"
+                      alt=""
+                  />
+                  <div class="card-body ">
+                    <h5 class="card-title">{{ person.title }}</h5>
+                  </div>
+                  </div>
+                  <ng-template #personModal let-modal>
+                      <div class="modal-header">
+                        <div class="header-info">
+                            <h4 class="modal-title d-inline pr-4">{{person.title}}</h4>
+                            <a href="{{person.website}}" target="_blank"><small>Website<i class="pi pi-external-link"></i></small></a>
                         </div>
-                    </div>
+                        <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="body">
+                          <img class="modal-image" src="{{person.image}}" alt="">
+                          <p [innerHTML]="person.body"></p>
+                        </div>
+                      </div>
+                    </ng-template>
+              </div>
             </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-12">
+            <h3>Statistics</h3>
+            <hr>
+            <app-comp-charts [programs]="chartData" [config]="chartConfig"></app-comp-charts>
+          </div>
         </div>
     </div>
-
-
+  </div>
 </div>

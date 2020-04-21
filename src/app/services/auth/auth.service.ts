@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
+import { MfaUser } from 'src/app/shared/models/user/user';
 
 @Injectable()
 export class AuthService {
@@ -97,5 +98,8 @@ export class AuthService {
       this.cachedRequests.forEach((req) => {
         // Not sure that we need this for MVP
       });
+  }
+  public triggerStatusChange(change:boolean){
+    this.statusChange.next(change);
   }
 }

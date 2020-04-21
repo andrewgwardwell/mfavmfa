@@ -24,6 +24,8 @@
     "@asymmetrik/ngx-leaflet": "^6.0.1",
     "@netlify-builder/deploy": "^3.1.0",
     "@ng-bootstrap/ng-bootstrap": "^5.1.2",
+    "angular-mgl-timeline": "^0.3.3",
+    "angular-vertical-timeline": "^0.6.0",
     "bootstrap": "^4.3.1",
     "chart.js": "^2.8.0",
     "core-js": "^2.6.9",
@@ -36,6 +38,7 @@
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.5.2",
     "tslib": "^1.10.0",
+    "underscore": "^1.10.2",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
@@ -49,6 +52,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/leaflet": "^1.4.4",
     "@types/node": "~8.9.4",
+    "@types/underscore": "^1.9.4",
     "codelyzer": "^5.0.1",
     "jasmine-core": "~2.99.1",
     "jasmine-spec-reporter": "~4.2.1",

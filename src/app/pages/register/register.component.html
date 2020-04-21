@@ -1,20 +1,80 @@
-<form (submit)="register()">
-  <div class="form-group">
-      <label for="name">Username:</label>
-      <input [(ngModel)]="name" type="text" [ngModelOptions]="{standalone: true}" />
+<p-toast position="top-right"></p-toast>
+<div class="container-fluid">
+  <div class="container register">
+    <div class="row">
+
+      <div class="col-12 col-md-6">
+          <div>
+              <h2>Register</h2>
+              <p>All registrants enjoy a complimentary 7 day trial. After the trial is up users are automatically charged $3.99 a month and can cancel at any time. We charge so that we can maintain a useful and relevant tool.</p>
+              <p>By registering you agree to our terms and conditions and are automatically opted in to occasional news from us (we promise not too often). We never share your information with any third party.</p>
+              <p>Our goal is to give our users a cohesive picture of what their life during and after an MFA might look like based on facts.</p>
+              <a routerLink="/login">Already registered? Login here.</a>
+          </div>
+      </div>
+      <div class="col-12 col-md-6">
+          <h4>We need some info...</h4>
+            <form [formGroup]="registerForm" (ngSubmit)="register()">
+                <div class="form-group required">
+                    <label for="userName">Username:</label>
+                    <input class="form-control" formControlName="userName" type="text" required/>
+                    <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="alert alert-danger">
+                        <div *ngIf="userName.errors.required">
+                          User name is required.
+                        </div>
+                     </div>
+                  </div>
+                <div class="form-group required">
+                  <label for="email">Email:</label>
+                  <input class="form-control" formControlName="email" type="text" required/>
+                  <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+                      <div *ngIf="email.errors.required">
+                        Email is required.
+                      </div>
+                      <div *ngIf="email.errors.email">
+                          Email is not valid.
+                      </div>
+                   </div>
+                </div>
+                <div class="form-group required">
+                    <label for="password">Password:</label>
+                    <input no-validate no-referer class="form-control" formControlName="password" type="password" required/>
+                    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                        <div *ngIf="password.errors.required">
+                          Password is required.
+                        </div>
+                        <div *ngIf="password.errors.uppercase">
+                          Password must include an uppercase letter.
+                        </div>
+                        <div *ngIf="password.errors.lowercase">
+                          Password must include a lowercase letter.
+                        </div>
+                        <div *ngIf="password.errors.numeric">
+                          Password must include a number.
+                        </div>
+                        <div *ngIf="password.errors.length">
+                            Password is too short.
+                        </div>
+                     </div>
+                </div>
+                <div class="form-group required">
+                    <label for="confirm">Confirm Password:</label>
+                    <input no-validate no-referer class="form-control" formControlName="confirm" type="password" required/>
+                    <div *ngIf="confirm.invalid && (confirm.dirty || confirm.touched)" class="alert alert-danger">
+                      <div *ngIf="confirm.errors.required">
+                        Confirm Password is required.
+                      </div>
+                      <div *ngIf="confirm.errors.MatchPassword">
+                        Passwords don't match.
+                      </div>
+                    </div>
+                </div>
+                <div *ngIf="registerForm.invalid && (registerForm.dirty || registerForm.touched) && (registerForm.errors && registerForm.errors.server)" class="alert alert-danger">
+                    {{serverError}}
+                </div>
+                <button class="btn btn-primary" type="submit" [disabled]="!registerForm.valid">Register</button>
+              </form>
+        </div>
     </div>
-  <div class="form-group">
-    <label for="email">Email:</label>
-    <input [(ngModel)]="email" type="text" [ngModelOptions]="{standalone: true}" />
   </div>
-  <div class="form-group">
-      <label for="password">Password:</label>
-      <input [(ngModel)]="password" type="password" [ngModelOptions]="{standalone: true}" />
-    </div>
-  <button type="submit">Register</button>
-</form>
-<div *ngIf="registrationSuccess" class="reg-success">
-  <h3>Congratulations! You are successfully registered with MFA vs MFA.</h3>
-  <p>Please, login to begin using the application.</p>
-  <a routerLink="/login"  class="button btn">Login</a>
 </div>

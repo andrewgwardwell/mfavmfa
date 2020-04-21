@@ -1,38 +1,21 @@
+@import "./../../styles/partials/variables";
 @mixin genreIcon{
-    .icon-fiction,
-    .icon-poetry,
-    .icon-nf{
-        width: 20px;
-        height: 20px;
+    .genre{
         display: inline-block;
-        border-radius: 50%;
-        position: relative;
         color: white;
-        &:after{
-            content: '';
-            display: block;
-            position: absolute;
-
-        }
+        margin: 0 3px;
+        padding: 5px 10px;
+        font-family: $quicksand;
     }
-    .icon-fiction{
-        background: green;
-        &:after{
-            content: 'F';
 
-        }
-    }
-    .icon-poetry{
-        background: red;
-        &:after{
-            content: 'P';
 
-        }
+    .fiction{
+        background: $purple;
     }
-    .icon-nf{
-        background: yellow;
-        &:after{
-            content: 'NF';
-        }
+    .poetry{
+        background: $blue;
+    }
+    .nf{
+        background: $red;
     }
 }

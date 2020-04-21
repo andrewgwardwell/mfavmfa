@@ -1,6 +1,13 @@
+@import "./../../styles/partials/variables";
+
 .login-page{
-    min-height: 100vh;
-    form{
-        margin: 25vh auto;
+    .login-holder{
+        padding: 60px;
+        min-height: 90vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        background: $green;
+        color: white;
     }
 }

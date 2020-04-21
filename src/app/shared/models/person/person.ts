@@ -6,9 +6,10 @@ export class Person {
     constructor(data: any){
         let attr = data.attributes;
         this.title = attr.title;
-        this.body = attr.body.processed; 
+        this.body = (attr.body && attr.body.processed) ? attr.body.processed : ''; 
         this.website = attr.field_website;
-        let image = `http://mfavmfa.lndo.site/${data.image.attributes.uri.url}`;
+        const image_url = data.image.attributes.uri.url.replace(/\/sites\/default\/files\//, "/sites/default/files/styles/author_image/public/");
+        let image = `https://api.mfavsmfa.com${image_url}`;
         this.image = image;
     }
 }

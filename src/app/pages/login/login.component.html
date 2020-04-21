@@ -1,22 +1,31 @@
 <p-toast position="top-right"></p-toast>
 <div class="container login-page">
-  <div class="row justify-content-center align-items-center align-items-stretch">
-    <div class="col col-sm-12 col-md-8 col-lg-6">
-        
-        <form (submit)="login()">
+  <div class="row login-holder">
+    <div class="col-12 col-lg-6">
+        <form [formGroup]="loginForm" (submit)="login()">
             <h3>Login</h3>
             <div class="form-group">
-              <label for="email">Username:</label>
-              <input class="form-control" [(ngModel)]="name" type="text" [ngModelOptions]="{standalone: true}" />
+              <label for="email">User Name:</label>
+              <input class="form-control" formControlName="userName" type="text" required/>
+              <div *ngIf="userName.invalid && (userName.dirty || userName.touched)" class="alert alert-danger">
+                  <div *ngIf="userName.errors.required">
+                    User Name is required.
+                  </div>
+               </div>
             </div>
             <div class="form-group">
-                <label for="inputPassword6">Password:</label>
-                <input type="password" id="inputPassword6" class="form-control" [(ngModel)]="password" type="password" [ngModelOptions]="{standalone: true}" aria-describedby="passwordHelpInline">
-                <small id="passwordHelpInline" class="text-muted">
-                  Must be 8-20 characters long.
-                </small>
-              </div>
-            <button class="btn btn-primary" type="submit">Login</button>
+                <label for="password">Password:</label>
+                <input name="password" type="password" class="form-control" formControlName="password" type="password" aria-describedby="passwordHelpInline" required>
+                <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+                    <div *ngIf="password.errors.required">
+                      Password is required.
+                    </div>
+                 </div>
+            </div>
+            <div *ngIf="loginForm.invalid && (loginForm.dirty || loginForm.touched) && (loginForm.errors && loginForm.errors.server)" class="alert alert-danger">
+                  {{serverError}}
+             </div>
+            <button class="btn btn-primary" type="submit" [disabled]="!loginForm.valid">Login</button>
         </form>
     </div>
   </div>

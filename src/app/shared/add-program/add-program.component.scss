@@ -17,9 +17,15 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    h3{
+        display: inline;
+    }
 }
 
 .programs-add-programs {
     overflow: scroll;
     height: 100%;
+}
+.pi{
+    font-size: 1.625rem;
 }

@@ -9,6 +9,7 @@ import { Comparison } from 'src/app/shared/models/comparison/comparison';
 import { MfaUser } from 'src/app/shared/models/user/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { forkJoin } from 'rxjs';
+import { Person } from 'src/app/shared/models/person/person';
 
 @Component({
   selector: "app-programs",
@@ -51,6 +52,7 @@ export class ProgramsComponent implements OnInit {
     // center: latLng(46.879966, -121.726909)
   };
   public programs: Array<any>;
+  public tomorrow = new Date(2017, 9, 20, 14,34);
   public selectablePrograms: Array<any>;
   public totalPrograms: Array<any>;
   public loading = false;
@@ -198,6 +200,7 @@ export class ProgramsComponent implements OnInit {
     residency_type && residency_type.length > 0
       ? residency_type.split("|")
       : "";
+    response.plottableTime = new Date(response.data.field_application_deadline);
     response.extras = this.bundleIncluded(response);
     let programs = [...this.programs, response];
     this.programs = programs;
@@ -293,6 +296,7 @@ export class ProgramsComponent implements OnInit {
             }
           });
         }
+        person.obj = new Person(person);
       });
     }
     return inc;

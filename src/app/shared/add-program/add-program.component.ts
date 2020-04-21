@@ -1,5 +1,4 @@
-import { Component, OnInit, Output, EventEmitter, Input, OnChanges, SimpleChange } from '@angular/core'
-import { ProgramsService } from '../../services/programs.service';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core'
 import {environment} from '../../../environments/environment';
 
 @Component({
@@ -18,7 +17,7 @@ export class AddProgramComponent implements OnInit {
   public loading = false;
   public fileUrl = environment.fileUrl;
 
-  constructor(private programService: ProgramsService) { }
+  constructor() { }
 
   ngOnInit() {
   }

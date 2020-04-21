@@ -1,5 +1,11 @@
 .main-nav{
     .navbar-brand img{
-        max-width: 100px;
+        max-width: 120px;
+    }
+    .nav-item{
+        padding-bottom: 0.25rem;
+        &:hover{
+            cursor: pointer;
+        }
     }
 }

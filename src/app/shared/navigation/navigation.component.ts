@@ -15,10 +15,11 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit() {
     this.getUser();
-    this.auth.statusChange.subscribe((item) => {
-      console.log(item);
-      if(!item){
+    this.auth.statusChange.subscribe((change) => {
+      if(!change){
         this.user = null;
+      } else {
+        this.getUser();
       }
     });
   }

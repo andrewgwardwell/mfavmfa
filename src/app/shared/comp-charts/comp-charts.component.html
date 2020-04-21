@@ -1,12 +1,23 @@
-<div *ngIf="finished">
-    <button (click)="randomize()">{{typeLabel}}</button>
-    <canvas baseChart width="400" height="200"
-      [datasets]="lineChartData"
-      [labels]="lineChartLabels"
-      [options]="lineChartOptions"
-      [colors]="lineChartColors"
-      [legend]="lineChartLegend"
-      [chartType]="type"
-      [plugins]="lineChartPlugins">
-    </canvas>
+<div class="chart" *ngIf="finished">
+  <div class="row" *ngIf="selectable">
+    <div class="col-12 offset-3 mt-4">
+      <button class="btn btn-danger" (click)="randomize()">
+        {{ typeLabel }}
+      </button>
+    </div>
   </div>
+  <canvas
+    class="col-12"
+    baseChart
+    width="400"
+    height="200"
+    [datasets]="lineChartData"
+    [labels]="lineChartLabels"
+    [options]="lineChartOptions"
+    [colors]="lineChartColors"
+    [legend]="lineChartLegend"
+    [chartType]="type"
+    [plugins]="lineChartPlugins"
+  >
+  </canvas>
+</div>

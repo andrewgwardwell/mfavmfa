@@ -9,6 +9,7 @@ import { Color, Label } from 'ng2-charts';
 })
 export class CompChartsComponent implements OnInit, OnChanges {
   @Input() programs: any;
+  @Input() config?: any;
 
   public lineChartData: ChartDataSets[] = [];
   public lineChartLabels: Label[] = [];
@@ -26,6 +27,7 @@ export class CompChartsComponent implements OnInit, OnChanges {
   public type = 'line';
   public lineChartPlugins = [];
   public finished = false;
+  public selectable = true;
   public typeLabel = 'Switch to Bar';
   public fields = [
     {label: 'Quality of Life', fields: ['field_quality_of_life'], type: 'single'},
@@ -60,8 +62,13 @@ export class CompChartsComponent implements OnInit, OnChanges {
       let dataSet = this.buildDataSet(config.label, config.fields, config.type, poppedAttributes);
       this.lineChartData.push(dataSet);
     });
+    if(this.config){
+      this.type = this.config.type == null ? this.type : this.config.type ;
+      this.selectable = this.config.selectable == null ? this.selectable : this.config.selectable;
+    }
     this.finished = true;
   }
+  
   buildDataSet(label:string, fieldNames:Array<string>, operator:string, values:Array<any>):any{
     let data = [];
     values.forEach((val) => {

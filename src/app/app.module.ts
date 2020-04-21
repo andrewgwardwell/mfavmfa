@@ -24,11 +24,13 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {PanelModule} from 'primeng/panel';
 import {StripeCheckoutModule} from 'ng-stripe-checkout';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { ReactiveFormsModule } from '@angular/forms';
+import { VerticalTimelineModule } from 'angular-vertical-timeline';
 
 //components
 import { AppComponent } from './app.component';
@@ -57,6 +59,7 @@ import { MapComponent } from './shared/map/map.component';
 import { CompChartsComponent } from './shared/comp-charts/comp-charts.component';
 import { ProgramComponent } from './pages/program/program.component';
 import { HomeComponent } from './pages/home/home.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -71,7 +74,8 @@ import { HomeComponent } from './pages/home/home.component';
     MapComponent,
     CompChartsComponent,
     ProgramComponent,
-    HomeComponent
+    HomeComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -86,6 +90,7 @@ import { HomeComponent } from './pages/home/home.component';
     DragDropModule,
     BrowserAnimationsModule,
     MatCardModule,
+    MatProgressBarModule,
     SidebarModule,
     ButtonModule,
     BlockUIModule,
@@ -102,7 +107,8 @@ import { HomeComponent } from './pages/home/home.component';
     ChartsModule,
     NgbModule,
     MatMenuModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    VerticalTimelineModule
   ],
   providers: [
     ProgramsService,

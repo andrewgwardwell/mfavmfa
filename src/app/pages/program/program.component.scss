@@ -1,18 +1,44 @@
-.program-logo{
-
-        max-width: 100%;
-    
+@import "./../../styles/partials/variables";
+.program-body{
+  background: white;
 }
-
+.program-logo{
+  max-width: 100%;
+}
 .program--person{
-    .picture {
-      overflow: hidden;
-      border-radius: 50% 50%;
-      height: 150px;
-      width: 150px;
-      img {
-        width: 150px;
-        height: auto;
-      }
+    margin-right: 25px;
+    .card{
+      border: none;
     }
+    &:hover{
+      cursor: pointer;
+    }
+    img {
+      border-radius: 50% 50%;
+      height: auto;
+      max-width: 150px;
+      
+    }
+}
+.modal-image{
+  float: left;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+.genres{
+  font-family: $quicksand;
+  padding: 10px;
+  margin: 10px 10px 10px 0;
+  color: white;
+  display: inline-block;
+
+  &.fiction{
+    background: $blue;
   }
+  &.poetry{
+    background: $purple;
+  }
+  &.nf{
+    background: $red;
+  }
+}

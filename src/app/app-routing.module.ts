@@ -7,6 +7,7 @@ import { ProgramComponent } from './pages/program/program.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { UserComponent } from './pages/user/user.component';
 import { LoginComponent } from './pages/login/login.component';
+import { PaymentComponent } from './pages/payment/payment.component';
 
 
 const routes: Routes = [
@@ -40,6 +41,11 @@ const routes: Routes = [
     component: UserComponent,
     data: { title: 'User' }
   },
+  {
+    path: 'payment',
+    component: PaymentComponent,
+    data: { title: 'Payment' }
+  }
 ];
 
 @NgModule({

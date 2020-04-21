@@ -1,14 +1,45 @@
-<div class="user">
-    <mat-list *ngIf="user">
-        <mat-list-item> <label for="">Username:</label> {{user.name}} </mat-list-item>
-        <mat-list-item> <label for="">Email:</label> {{user.email}} </mat-list-item>
-        <mat-list-item> <label for="">Stripe Subscription ID:</label>{{user.subscriptionId}}</mat-list-item>
-        <mat-list-item> <label for="">Stripe Customer ID:</label>{{user.customerId}}</mat-list-item>
-        <mat-list-item> <label for="">Subscription Plan:</label>{{plan}}</mat-list-item>
-        <mat-list-item> <label for="">Status:</label>{{status}}</mat-list-item>
-        <mat-list-item *ngIf="cancelAtEndOfPeriod && status == 'active' && currentPeriodEnd"> <label for="">Subscription will end at:</label>{{currentPeriodEnd|date:'MMMM d, y, h:mm:ss a'}}</mat-list-item>
-    </mat-list>
-    <button *ngIf="!cancelAtEndOfPeriod && status == 'active'" (click)="unsubscribe()">Cancel Subscription</button>
-    <button *ngIf="cancelAtEndOfPeriod && status == 'active'" (click)="resubscribe()">Restart Subscription</button>
-    <button *ngIf="status == 'canceled'" (click)="subscribe()">Subscribe</button>
+<div class="container user mt-4">
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">
+        <dl class="row">
+            <dt class="col-12 col-lg-2"><label for="">Username:</label> </dt>
+            <dd class="col-12 col-lg-10">{{ user.name }}</dd>
+            <dt class="col-12 col-lg-2"><label for="">Email:</label> </dt>
+            <dd class="col-12 col-lg-10">{{ user.email }}</dd>
+            <dt class="col-12 col-lg-2"><label for="">Stripe Subscription ID:</label> </dt>
+            <dd class="col-12 col-lg-10">{{ user.subscriptionId }}</dd>
+            <dt class="col-12 col-lg-2"><label for="">Stripe Customer ID:</label> </dt>
+            <dd class="col-12 col-lg-10">{{ user.customerId }}</dd>
+            <dt class="col-12 col-lg-2"><label for="">Subscription Plan:</label></dt>
+            <dd class="col-12 col-lg-10">{{ plan }}</dd>
+            <dt class="col-12 col-lg-2"><label for="">Status:</label></dt>
+            <dd class="col-12 col-lg-10">{{ status }}</dd>
+            <dt class="col-12 col-lg-2"><label for="">Subscription will end at:</label></dt>
+            <dd class="col-12 col-lg-10">{{ currentPeriodEnd | date: "MMMM d, y, h:mm:ss a" }}</dd>
+        </dl>
+    </li>
+    <li class="list-group-item">
+      <button
+        *ngIf="!cancelAtEndOfPeriod && status == 'active'"
+        (click)="unsubscribe()"
+        class="btn btn-danger"
+      >
+        Cancel Subscription
+      </button>
+      <button
+        *ngIf="cancelAtEndOfPeriod && status == 'active'"
+        (click)="resubscribe()"
+        class="btn btn-success"
+      >
+        Restart Subscription
+      </button>
+      <button
+        *ngIf="status == 'canceled'"
+        (click)="subscribe()"
+        class="btn btn-success"
+      >
+        Subscribe
+      </button>
+    </li>
+  </ul>
 </div>
