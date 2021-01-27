@@ -6,6 +6,7 @@ import { MessageService } from 'primeng/api';
 import { Subject } from 'rxjs';
 import { environment } from '../../../environments/environment.prod';
 import { MfaUser } from 'src/app/shared/models/user/user';
+import { tap } from 'rxjs/operators';
 
 @Injectable()
 export class AuthService {
@@ -29,7 +30,13 @@ export class AuthService {
     body.append('grant_type', 'password');
     body.append('client_id', this.client_uuid);
     body.append('client_secret', this.client_secret);
-    return this.http.post(url, body);
+    return this.http.post(url, body).pipe(
+      tap(
+        (response: any) => {
+          this.storeInfo(response);
+        }
+      )
+    );
   }
 
   refreshToken(){
@@ -51,6 +58,10 @@ export class AuthService {
   storeInfo(details: any){
     let info = JSON.stringify(details);
     localStorage.setItem('authInfo', info);
+  }
+
+  public getInfo(){
+    return JSON.parse(localStorage.getItem('authInfo'));
   }
 
   public getRefreshToken(): string {

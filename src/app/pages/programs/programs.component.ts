@@ -10,6 +10,7 @@ import { MfaUser } from 'src/app/shared/models/user/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { forkJoin } from 'rxjs';
 import { Person } from 'src/app/shared/models/person/person';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: "app-programs",
@@ -42,7 +43,8 @@ export class ProgramsComponent implements OnInit {
     private entityService: EntityService,
     public msg: MessageService,
     public auth: AuthService,
-    public router: Router
+    public router: Router,
+    private modalService: NgbModal
   ) {}
   public leafletOptions: any = {
     layers: [
@@ -83,9 +85,8 @@ export class ProgramsComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.subStatus = localStorage.getItem("stripeStatus");
     // gets the stored programs
-    if (this.subStatus && this.subStatus == "active") {
+    // if (this.subStatus && this.subStatus == "active") {
       this.loading = true;
       this.user = new MfaUser(this.userService.getInfo());
       this.programs = [];
@@ -122,15 +123,6 @@ export class ProgramsComponent implements OnInit {
           console.log(error);
         }
       );
-    } else {
-      setTimeout(() => {
-        this.msg.add({severity: 'error', summary: 'Please, log back in! There was an error with your account.'});
-      }, 1000);
-      setTimeout(() => {
-        this.auth.logout();
-        this.router.navigate(['/login']);
-      }, 5000);
-    }
   }
   public loadTertiaryData() {
     this.entityService
@@ -143,6 +135,9 @@ export class ProgramsComponent implements OnInit {
       .subscribe(response => {
         this.residencyTypes = response;
       });
+  }
+  public openModal(modal){
+    this.modalService.open(modal, {size: 'xl'});
   }
   public getSimplePrograms() {
     // this.loading = true;

@@ -7,6 +7,8 @@ import { MfaUser} from 'src/app/shared/models/user/user';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { PasswordValidation } from 'src/app/pipes/password.validator';
 import { MessageService } from 'primeng/api';
+import { switchMap, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -28,7 +30,7 @@ export class RegisterComponent implements OnInit {
   serverError:string = '';
   private stripeCheckoutHandler: StripeCheckoutHandler;
   public user: MfaUser;
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private auth: AuthService, private stripeCheckoutLoader: StripeCheckoutLoader, private stripe: StripeService, private msg: MessageService) { 
+  constructor(private router: Router, private formBuilder: FormBuilder, private userService: UserService, private auth: AuthService, private stripeCheckoutLoader: StripeCheckoutLoader, private stripe: StripeService, private msg: MessageService) { 
   }
 
   ngOnInit() {
@@ -49,7 +51,8 @@ export class RegisterComponent implements OnInit {
             this.stripe.createSubscription(this.user.uid, token).subscribe((resp) =>{
               this.registrationSuccess = true;
               //clears out user info
-              this.auth.logout();
+              // this.auth.logout();
+              this.router.navigate(['/programs']);
             }, (err) => {
               this.msg.add({severity:'error', summary:`${err.error.message}`});
               this.serverError = err.error.message;
@@ -73,22 +76,32 @@ export class RegisterComponent implements OnInit {
         'value': this.password.value,
       }]
     };
-    this.userService.register(data).subscribe((response:any)=>{
-      // send to login
-      this.userService.storeInfo(response);
-      this.user = new MfaUser(response);
-      this.subscribe();
-    }, (error)=>{
-      this.msg.add({severity:'error', summary:`${error.error.message}`});
-      this.serverError = error.error.message;
-      this.registerForm.setErrors({server: true});
-    });
+    this.userService.register(data).pipe(
+      tap((response:any) => {
+        this.userService.storeInfo(response);
+        this.user = new MfaUser(response);
+      }),
+      switchMap((response) => {
+        return this.auth.login({name: this.userName.value, pass: this.password.value});
+      })
+    ).subscribe(
+      (response:any)=>{
+        // send to login
+        this.subscribe();
+      }, (error)=>{
+        this.msg.add({severity:'error', summary:`${error.error.message}`});
+        this.serverError = error.error.message;
+        this.registerForm.setErrors({server: true});
+      }
+    );
+
+
   }
   
   public subscribe(){
     this.stripeCheckoutHandler.open({
-      email: this.email.value,
-      closed: this.closedPayment.bind(this)
+      email: this.email.value
+      // closed: this.closedPayment.bind(this)
     });
   }
   public closedPayment(){

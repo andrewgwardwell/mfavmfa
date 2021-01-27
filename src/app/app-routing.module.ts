@@ -8,44 +8,54 @@ import { RegisterComponent } from './pages/register/register.component';
 import { UserComponent } from './pages/user/user.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PaymentComponent } from './pages/payment/payment.component';
+import { SubscriptionGuard } from './shared/guards/subscription.guard';
+import { AuthGuard } from './shared/guards/auth.guard';
+import { NotAuthGuard } from './shared/guards/not-auth.guard';
 
 
 const routes: Routes = [
-  {    
-    path: '',
+  {
+    path: 'introduction',
     component: HomeComponent,
     data: { title: 'Mfa Vs. Mfa' }
   },
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [NotAuthGuard],
     data: { title: 'Login' }
   },
   {
     path: 'register',
     component: RegisterComponent,
+    canActivate: [NotAuthGuard],
     data: { title: 'Register' }
   },
   {
     path: 'programs',
     component: ProgramsComponent,
+    canActivate: [AuthGuard, SubscriptionGuard],
     data: { title: 'Programs' }
   },
   {
     path: 'program/:name',
     component: ProgramComponent,
+    canActivate: [AuthGuard, SubscriptionGuard],
     data: { title: 'Program' }
   },
   {
     path: 'account',
     component: UserComponent,
+    canActivate: [AuthGuard],
     data: { title: 'User' }
   },
   {
     path: 'payment',
     component: PaymentComponent,
+    canActivate: [AuthGuard],
     data: { title: 'Payment' }
-  }
+  },
+  { path: "", redirectTo: '/introduction', pathMatch: "full" },
 ];
 
 @NgModule({

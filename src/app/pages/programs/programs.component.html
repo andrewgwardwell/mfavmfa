@@ -1,9 +1,6 @@
 <p-toast position="top-right"></p-toast>
-<div *ngIf="subStatus !== 'active'" class="not-active">
-  Please, resubscribe:
-  <a routerLink="/account">Account</a>
-</div>
-<p-sidebar *ngIf="subStatus == 'active'" [(visible)]="sidebar" styleClass="ui-sidebar-lg" class="ap-sidebar">
+
+<p-sidebar [(visible)]="sidebar" styleClass="ui-sidebar-lg" class="ap-sidebar">
     <div class="programs-add-programs">
       <app-add-program
         [programs]="selectablePrograms"
@@ -17,7 +14,7 @@
             <mat-progress-bar mode="indeterminate"></mat-progress-bar>
         </div>
     </div>
-    <div *ngIf="subStatus == 'active' && !loading" class="ui-g">
+    <div *ngIf="!loading" class="ui-g">
       <div class="row mt-4">
         <div class="col-12">
                 <button
@@ -111,8 +108,8 @@
                                          </h3>
                                       </div>
                                   </p-header>
-                                  <div class="people" *ngIf="prog.extras && prog.extras.people.length > 0">
-                                      <div class="program--person mt-2 mb-2 d-flex flex-wrap flex-row" *ngFor="let person of prog.extras.people">
+                                  <!-- <div class="people" *ngIf="prog.extras && prog.extras.people.length > 0">
+                                      <div class="program--person mt-4 mb-4 d-flex flex-wrap flex-row" *ngFor="let person of prog.extras.people">
                                           <div class="program--person__left col-12 col-lg-2">
                                               <div class="picture">
                                                   <img src="{{person.obj.image}}" alt="">
@@ -131,6 +128,42 @@
         
         
                                       </div>
+                                    </div> -->
+                                    <div class="people d-flex flex-wrap justify-content-between" *ngIf="prog.extras && prog.extras.people.length > 0">
+
+                                        <div
+                                          class="program--person"
+                                          (click)="openModal(personModal)"
+                                          *ngFor="let person of prog.extras.people"
+                                        >
+                                            <div class="card p-2 text-center align-items-center">
+                                                <img
+                                                class="mt-4"
+                                                src="{{person.obj.image}}"
+                                                alt=""
+                                            />
+                                            <div class="card-body ">
+                                              <h5 class="card-title">{{ person.obj.title }}</h5>
+                                            </div>
+                                            </div>
+                                            <ng-template #personModal let-modal>
+                                                <div class="modal-header">
+                                                  <div class="header-info">
+                                                      <h4 class="modal-title d-inline pr-4">{{person.obj.title}}</h4>
+                                                      <a href="{{person.obj.website}}" target="_blank"><small>Website<i class="pi pi-external-link"></i></small></a>
+                                                  </div>
+                                                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                                    <span aria-hidden="true">&times;</span>
+                                                  </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                  <div class="body">
+                                                    <img class="modal-image" src="{{person.obj.image}}" alt="">
+                                                    <p [innerHTML]="person.obj.body"></p>
+                                                  </div>
+                                                </div>
+                                              </ng-template>
+                                        </div>
                                     </div>
                               </p-panel>
                           </ng-template>

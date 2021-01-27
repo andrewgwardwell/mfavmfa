@@ -21,28 +21,24 @@ export class PaymentComponent implements OnInit {
   }
   public ngAfterViewInit() {
     const info = this.userService.getInfo();
-    if(info){
-      this.user = new MfaUser(info);
-      this.stripeCheckoutLoader.createHandler({
-          key: 'pk_test_3ywXbQTf6guYBAtjZGRzrgDI',
-          token: (token) => {
-            // likely needs to be different
-              this.stripe.createSubscription(this.user.uid, token).subscribe((resp) =>{
-                this.msg.add({severity:'success', summary:`Payment Complete! Please, log back in.`});
-                //clears out user info
-                this.auth.logout();
-                this.router.navigate(['/login']);
-                
-              }, (err) => {
-                this.msg.add({severity:'error', summary:`${err.error.message}`});
-              });
-          }
-      }).then((handler: StripeCheckoutHandler) => {
-          this.stripeCheckoutHandler = handler;
-      });
-    } else {
-      this.router.navigate(['/']);
-    }
+    this.user = new MfaUser(info);
+    this.stripeCheckoutLoader.createHandler({
+        key: 'pk_test_3ywXbQTf6guYBAtjZGRzrgDI',
+        token: (token) => {
+          // likely needs to be different
+            this.stripe.createSubscription(this.user.uid, token).subscribe((resp) =>{
+              this.msg.add({severity:'success', summary:`Payment Complete! Please, log back in.`});
+              //clears out user info
+              this.auth.logout();
+              this.router.navigate(['/login']);
+              
+            }, (err) => {
+              this.msg.add({severity:'error', summary:`${err.error.message}`});
+            });
+        }
+    }).then((handler: StripeCheckoutHandler) => {
+        this.stripeCheckoutHandler = handler;
+    });
 
   }
   public subscribe(){

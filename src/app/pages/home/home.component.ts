@@ -24,12 +24,7 @@ export class HomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.subStatus = localStorage.getItem("stripeStatus");
-    if (this.subStatus && this.subStatus == "active") {
-        this.router.navigate(['/programs']);
-    } else {
-      
-    }
+
   }
   onSubmit(){
     const form = this.signUpForm.value;
