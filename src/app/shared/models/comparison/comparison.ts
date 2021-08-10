@@ -26,8 +26,12 @@ export class ComparisonProgram {
     target_uuid: string;
     url: string;
     constructor(data: any){
-        this.target_id = data.target_id || data.data.attributes.drupal_internal__nid;
-        this.target_uuid = data.target_uuid || data.data.id;
+        if(data.data){
+          data = data.data;
+          data.nid = data.attributes.drupal_internal__nid;
+        }
+        this.target_id = data.target_id || data.nid;
+        this.target_uuid = data.target_uuid || data.id || data.uuid;
         this.url = data.url || null;
     }
 }

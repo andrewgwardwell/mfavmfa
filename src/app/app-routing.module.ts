@@ -11,6 +11,7 @@ import { PaymentComponent } from './pages/payment/payment.component';
 import { SubscriptionGuard } from './shared/guards/subscription.guard';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { NotAuthGuard } from './shared/guards/not-auth.guard';
+import { DiscoverComponent } from './pages/discover/discover.component';
 
 
 const routes: Routes = [
@@ -36,6 +37,12 @@ const routes: Routes = [
     component: ProgramsComponent,
     canActivate: [AuthGuard, SubscriptionGuard],
     data: { title: 'Programs' }
+  },
+  {
+    path: 'discover',
+    component: DiscoverComponent,
+    canActivate: [AuthGuard, SubscriptionGuard],
+    data: { title: 'Discover' }
   },
   {
     path: 'program/:name',

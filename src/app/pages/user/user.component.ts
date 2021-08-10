@@ -56,15 +56,20 @@ export class UserComponent implements OnInit {
     });
   }
   userInfoFromServer(){
-    this.stripeService.getInfo(this.user.uid).subscribe((info:any) => {
-      this.plan = info.plan.name;
-      this.status = info.plan.status;
-      this.cancelAtEndOfPeriod = info.plan.cancel_at_period_end;
-      this.currentPeriodEnd = info.plan.current_period_end * 1000;
-      localStorage.setItem('stripeStatus', this.status);
-    }, (err: any) => {
-
-    });
+    if(this.user.subscriptionId){
+      this.stripeService.getInfo(this.user.uid).subscribe((info:any) => {
+        this.plan = info.plan.name;
+        this.status = info.plan.status;
+        this.cancelAtEndOfPeriod = info.plan.cancel_at_period_end;
+        this.currentPeriodEnd = info.plan.current_period_end * 1000;
+        localStorage.setItem('stripeStatus', this.status);
+      }, (err: any) => {
+  
+      });
+    } else {
+      this.plan = 'Free';
+      this.status = 'Active';
+    }
   }
   unsubscribe(){
     this.stripeService.update(this.user.uid, {cancel_at_period_end: true}).subscribe((response) => {

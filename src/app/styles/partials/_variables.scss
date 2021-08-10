@@ -18,8 +18,8 @@ $container-max-widths: (
 
 $text-muted: white !default;
 
-.btn{
-    color: white;
+.btn-success{
+    color: white !important;
 }
 small{
     font-family: $quicksand;

@@ -6,43 +6,86 @@
   </div>
   <div *ngIf="!loading && program" class="row d-flex">
     <div class="col-12 col-lg-2 mt-4 text-center">
-      <img class="program-logo" src="{{ program.logo }}" alt="" />
-      <button
-      type="button"
-      (click)="goToNextStep()"
-      label="Add"
-      class="btn btn-icon mt-4"
-      [ngClass] ="{'btn-secondary': !hasProgram, 'btn-success': hasProgram}"
-        >
-        <i *ngIf="loading" class="pi pi-spin pi-spinner"></i>
-        <i *ngIf="!loading && hasProgram" class="pi pi-check"></i>
-        <i *ngIf="!loading && !hasProgram" class="pi pi-plus"></i>
-        <span>
-            {{ !hasProgram ? 'Add Program' : 'Added'}}
-        </span>
-    </button>
+      <div class="row">
+        <div class="col-lg">
+          <img class="program-logo" src="{{ program.logo }}" alt="" />
+          <div class="row justify-content-center">
+            <button
+            type="button"
+            (click)="goToNextStep()"
+            label="Add"
+            class="btn btn-icon mt-4"
+            [ngClass] ="{'btn-secondary': !hasProgram, 'btn-success': hasProgram}"
+              >
+              <i *ngIf="loading" class="pi pi-spin pi-spinner"></i>
+              <i *ngIf="!loading && hasProgram" class="pi pi-check"></i>
+              <i *ngIf="!loading && !hasProgram" class="pi pi-plus"></i>
+              <span>
+                  {{ !hasProgram ? 'Add Program' : 'Added'}}
+              </span>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="row my-2">
+        <div class="col-lg-12 m-2">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Residency Type(s)</mat-card-subtitle>
+              <h3
+              *ngFor="let type of program.residency_type"
+              class="type"
+              >{{ type }}</h3>
+          </mat-card>
+        </div>
+        <div class="col-lg-12 m-2">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Application Date</mat-card-subtitle>
+              <h3>{{ program.deadline|date:'shortDate' }}</h3>
+          </mat-card>
+        </div>
+        <div class="col-lg-12 m-2">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Application Fee</mat-card-subtitle>
+              <h3>${{ program.fee }}</h3>
+          </mat-card>
+        </div>
+        <div class="col-lg-12 m-2">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Max Class Size</mat-card-subtitle>
+              <h3>{{ program.maxClassSize }}</h3>
+          </mat-card>
+        </div>
+        <div class="col-lg-12 m-2">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Duration</mat-card-subtitle>
+              <h3>{{ program.minDuration }}</h3>
+          </mat-card>
+        </div>
+      </div>
+
     </div>
-    <div class="col-12 col-md-10 d-flex flex-column justify-content-center">
+    <div class="col-12 col-md-10 d-flex flex-column">
       <div class="row mt-4">
         <div class="col-12 col-lg-6">
           <h2 class="d-block">{{ program.title }}</h2>
           <span class="d-block">{{ program.address }}</span>
           <a class="d-block" href="{{ program.website }}" target="_blank">
-            {{ program.website }}
+            Program Site
             <i class="pi pi-external-link"></i>
           </a>
         </div>
-        <div class="col-12 col-lg-6 text-lg-right">
-          <span
-            *ngFor="let genre of program.extras.genre"
-            class="genres"
-            [ngClass]="{
-              fiction: genre.attributes.name == 'Fiction',
-              nf: genre.attributes.name == 'Creative Non-fiction',
-              poetry: genre.attributes.name == 'Poetry'
-            }"
-            >{{ genre.attributes.name }}</span
-          >
+        <div class="col-12 col-lg-6 d-flex justify-content-end">
+          <mat-chip-list>
+            <mat-chip
+            *ngFor="let genre of program.genres"
+            class="genre"
+            [ngClass]="genre"
+            >
+            {{ genre }}
+          </mat-chip>
+          </mat-chip-list>
         </div>
       </div>
       <div class="row">
@@ -54,7 +97,6 @@
           >
         </div>
       </div>
-
       <div class="row mt-4">
         <div class="col-12 col-md-12">
           <div class="about" [innerHTML]="program.body"></div>
@@ -93,10 +135,21 @@
                           <span aria-hidden="true">&times;</span>
                         </button>
                       </div>
-                      <div class="modal-body">
+                      <div class="modal-body d-flex flex-column">
                         <div class="body">
                           <img class="modal-image" src="{{person.image}}" alt="">
                           <p [innerHTML]="person.body"></p>
+                        </div>
+                        <div *ngIf="person.books && person.books.length > 0" class="books">
+                          <div class="row m-0">
+                            <mat-card class="col col-lg-2 book" *ngFor="let book of person.books">
+                              <mat-card-content>
+                                <span class="d-block mb-2">{{book.title}}</span>
+                                <img src="{{book.cover}}" alt="{{book.title}}" class="mw-100 mh-100">
+                                <small class="d-block mt-2">{{book.pubDate}}</small>
+                              </mat-card-content>
+                            </mat-card>
+                          </div>
                         </div>
                       </div>
                     </ng-template>
@@ -107,11 +160,11 @@
       </div>
       <div class="row">
           <div class="col-12">
-            <h3>Statistics</h3>
+            <h3>Alumni</h3>
             <hr>
-            <app-comp-charts [programs]="chartData" [config]="chartConfig"></app-comp-charts>
+            <p [innerHTML]="program.alumni"></p>
           </div>
-        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -8,9 +8,11 @@ import { Comparison } from 'src/app/shared/models/comparison/comparison';
 import { MfaUser } from 'src/app/shared/models/user/user';
 import { UserService } from 'src/app/services/user.service';
 import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
 import { findIndex } from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Person } from 'src/app/shared/models/person/person';
+import { OpenLibraryService } from 'src/app/services/open-library.service';
 
 @Component({
   selector: 'app-program',
@@ -28,12 +30,10 @@ export class ProgramComponent implements OnInit {
     "field_genre",
     "field_logo",
     "field_residency_type",
-    "field_faculty_cnfiction",
     "field_faculty_fiction",
-    "field_faculty_poetry",
-    "field_faculty_cnfiction.field_image",
     "field_faculty_fiction.field_image",
-    "field_faculty_poetry.field_image"
+    "field_faculty_fiction.field_books",
+    "field_faculty_fiction.field_books.field_cover"
   ];
   public loading: boolean = true;
   public hasComparison = false;
@@ -48,35 +48,40 @@ export class ProgramComponent implements OnInit {
     private programsService: ProgramsService,
     private msg: MessageService,
     private userService: UserService,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private openLib: OpenLibraryService
   ) {}
 
   ngOnInit() {
-    forkJoin(
+    const initCall = forkJoin(
       this.entityService.getProgramsByUid(this.user.uid),
       this.entityService.getEntityByName('node--program', this.route.snapshot.params.name, this.relEnts)
-    ).subscribe(
-      (packet: Array<any>) => {
-        this.loading = false;
+    ).pipe(
+      tap((packet:any) => {
         if(packet[1]){
           let formatted = this.progLoadedFormatter(packet[1]);
           formatted.logoUrl = this.findLogo(formatted);
           this.program = new Program(formatted);
+          console.log(this.program);
           this.chartData = [{data:packet[1].data[0]}];
         }
+      })
+    )
+    
+    initCall.subscribe(
+      (packet: Array<any>) => {
+        this.loading = false;
         if(packet[0].data && packet[0].data.length > 0){
           this.hasComparison = true;
           this.comparison = packet[0].data;
           this.compNid = packet[0].data[0].attributes.drupal_internal__nid;
           if(packet[0].included && packet[0].included.length > 0){
             const inIncluded = findIndex(packet[0].included, (prog: any) => { 
-              console.log(prog);
               return this.program.id === prog.id
             });
             this.hasProgram = inIncluded > -1;
           }
         }
-
       }
     );
   }
@@ -96,6 +101,7 @@ export class ProgramComponent implements OnInit {
     if (response.included) {
       response.included.forEach(item => {
         if (item.type == "node--person") {
+          item.books = this.getBooks(item, response);
           included.people.push(item);
         }
         if (item.type == "taxonomy_term--genre") {
@@ -220,4 +226,25 @@ export class ProgramComponent implements OnInit {
     public openModal(modal){
       this.modalService.open(modal, {size: 'xl'});
     }
+
+    getBooks(item:any, response:any){
+      const books = item.relationships.field_books.data;
+      let fullBooks = [];
+      //pull in the entity
+      if(books.length > 0){
+        const bookEntities = response.included.filter(b => b.type === 'node--book');
+        const files = response.included.filter(b => b.type === 'file--file');
+        fullBooks = books.map((book:any) => {
+          const beInd = bookEntities.findIndex((bEnt) => bEnt.id === book.id);
+          const be = bookEntities[beInd];
+          const cInd = files.findIndex((f) => f.id === be.relationships.field_cover.data.id);
+          const cover = files[cInd];
+          be.cover = cover;
+          return be;
+        });
+      }
+
+      return fullBooks;
+    }
+
 }

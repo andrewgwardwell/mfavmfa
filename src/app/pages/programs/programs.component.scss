@@ -1,3 +1,4 @@
+@import '../../styles/partials/mixins';
 .slid-over {
   transform: translateX(50%);
   transition: transform .25s ease;
@@ -33,6 +34,9 @@
 }
 .program--person{
   width: 270px;
+  @include breakpoint('lg'){
+    width: 20%;
+  }
   .card{
     border: none;
   }
@@ -67,4 +71,13 @@
   float: left;
   padding-right: 20px;
   padding-bottom: 20px;
+}
+.timeline{
+  width: 100%;
+}
+.book{
+  border: none;
+  img{
+    height: 175px
+  }
 }

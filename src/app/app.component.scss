@@ -59,3 +59,9 @@ ul,ol,dl{
     background: $danger;
 }
 
+.mat-card{
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border: 1px solid lightgrey;
+}
+

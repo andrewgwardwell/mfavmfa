@@ -9,8 +9,10 @@ import { Comparison } from 'src/app/shared/models/comparison/comparison';
 import { MfaUser } from 'src/app/shared/models/user/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { forkJoin } from 'rxjs';
+import { cloneDeep } from 'lodash';
 import { Person } from 'src/app/shared/models/person/person';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { Program } from 'src/app/shared/models/program/program';
 
 @Component({
   selector: "app-programs",
@@ -54,6 +56,7 @@ export class ProgramsComponent implements OnInit {
     // center: latLng(46.879966, -121.726909)
   };
   public programs: Array<any>;
+  public peoplePrograms: Array<any>;
   public tomorrow = new Date(2017, 9, 20, 14,34);
   public selectablePrograms: Array<any>;
   public totalPrograms: Array<any>;
@@ -67,14 +70,10 @@ export class ProgramsComponent implements OnInit {
   public comparison: any;
   public compNid: number;
   private relEnts = [
-    "field_faculty_cnfiction",
     "field_faculty_fiction",
-    "field_faculty_poetry",
-    "field_faculty_cnfiction.field_image",
     "field_faculty_fiction.field_image",
-    "field_faculty_poetry.field_image"
-    // 'field_genre',
-    // 'field_residency_type',
+    "field_faculty_fiction.field_books",
+    "field_faculty_fiction.field_books.field_cover"
   ];
   private relGrouping = [
     // 'field_faculty_cnfiction',
@@ -90,6 +89,7 @@ export class ProgramsComponent implements OnInit {
       this.loading = true;
       this.user = new MfaUser(this.userService.getInfo());
       this.programs = [];
+      this.peoplePrograms = [];
       this.loadTertiaryData();
       this.getSimplePrograms();
       this.entityService.getProgramsByUid(this.user.uid).subscribe(
@@ -168,12 +168,6 @@ export class ProgramsComponent implements OnInit {
       }
     );
   }
-  public getProgramsFromLocalStorage() {
-    this.programs = this.programsService.getProgramsFromStorage();
-    if (this.programs.length == 0) {
-      this.sidebar = true;
-    }
-  }
 
   public progloader(newProgram: any) {
     return this.entityService.getEntityById("node--program", newProgram.uuid, this.relEnts);
@@ -190,7 +184,7 @@ export class ProgramsComponent implements OnInit {
     ? newProgram.field_genre
     : this.getFromList(newProgram, "field_genre");
   response.genres =
-    genres && genres.length > 0 ? genres.split("|") : "";
+    genres && genres.length > 0 ? genres.split("|").sort() : [];
   response.residency_type =
     residency_type && residency_type.length > 0
       ? residency_type.split("|")
@@ -199,7 +193,8 @@ export class ProgramsComponent implements OnInit {
     response.extras = this.bundleIncluded(response);
     let programs = [...this.programs, response];
     this.programs = programs;
-    this.programsService.setProgramsToStorage(programs);
+    this.peoplePrograms = cloneDeep(programs);
+    // this.programsService.setProgramsToStorage(programs.map(prog => new Program(prog.data)) );
     this.removeProgramFromList(response);
   }
   
@@ -220,15 +215,17 @@ export class ProgramsComponent implements OnInit {
             ? newProgram.field_genre
             : this.getFromList(newProgram, "field_genre");
           response.genres =
-            genres && genres.length > 0 ? genres.split("|") : "";
+            genres && genres.length > 0 ? genres.split("|").sort() : [];
           response.residency_type =
             residency_type && residency_type.length > 0
               ? residency_type.split("|")
               : "";
           response.extras = this.bundleIncluded(response);
           let programs = [...this.programs, response];
+          console.log(programs);
           this.programs = programs;
-          this.programsService.setProgramsToStorage(programs);
+          this.peoplePrograms = cloneDeep(programs);
+          // this.programsService.setProgramsToStorage(programs.map(prog => new Program(prog.data)));
           this.removeProgramFromList(response);
           if (withMsg) {
             this.msg.add({
@@ -266,6 +263,7 @@ export class ProgramsComponent implements OnInit {
     if (response.included) {
       response.included.forEach(item => {
         if (item.type == "node--person") {
+          item.books = this.getBooks(item, response);
           included.people.push(item);
         }
         if (item.type == "file--file") {
@@ -301,7 +299,7 @@ export class ProgramsComponent implements OnInit {
     this.programs.forEach((program, ind) => {
       if (prog.data.id == program.data.id) {
         this.programs.splice(ind, 1);
-        this.programsService.setProgramsToStorage(this.programs);
+        // this.programsService.setProgramsToStorage(this.programs);
         this.selectablePrograms = this.totalPrograms.map(x =>
           Object.assign({}, x)
         );
@@ -317,6 +315,17 @@ export class ProgramsComponent implements OnInit {
     });
   }
 
+  public peopleFilter(value: string) {
+    const sample = cloneDeep(this.programs);
+    let progs = sample.map((prog) => {
+      prog.extras.people = prog.extras.people.filter((peep) => {
+        return peep.obj.title.toLowerCase().indexOf(value.toLowerCase()) > -1;
+      });
+      return prog;
+    });
+    this.peoplePrograms = progs;
+  }
+
   public removeProgramFromList(progam: any) {
     if(this.selectablePrograms)
     this.selectablePrograms.forEach((sel, ind) => {
@@ -325,6 +334,28 @@ export class ProgramsComponent implements OnInit {
       }
     });
   }
+
+  getBooks(item:any, response:any){
+    const books = item.relationships.field_books.data;
+    let fullBooks = [];
+    //pull in the entity
+    if(books.length > 0){
+      const bookEntities = response.included.filter(b => b.type === 'node--book');
+      const files = response.included.filter(b => b.type === 'file--file');
+      fullBooks = books.map((book:any) => {
+        const beInd = bookEntities.findIndex((bEnt) => bEnt.id === book.id);
+        const be = bookEntities[beInd];
+        if(be){
+          const cInd = files.findIndex((f) => f.id === be.relationships.field_cover.data.id);
+          const cover = files[cInd];
+          be.cover = cover;
+        }
+        return be;
+      });
+    }
+    return fullBooks;
+  }
+
   public savePrograms() {
     let comparison: Comparison;
     if(this.hasComparison){

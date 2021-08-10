@@ -15,191 +15,197 @@
         </div>
     </div>
     <div *ngIf="!loading" class="ui-g">
-      <div class="row mt-4">
+      <div class="my-4">
         <div class="col-12">
+          <button
+          mat-stroked-button
+          type="button"
+          [routerLink]="['/discover']"
+          label="Find Programs"
+          class="btn mr-2"
+          >
+
+              <span>
+                  Find Programs
+              </span>
+              <i class="pi pi-external-link"></i>
+            </button>
                 <button
+                  mat-stroked-button
                   type="button"
                   (click)="sidebar = true"
                   label="Add"
-                  class="btn btn-primary btn-icon"
+                  class="btn"
                 >
-                <i class="pi pi-plus"></i>
+
                 <span>
-                    Add
+                  Quick Add
                 </span>
+                <i class="pi pi-plus"></i>
               </button>
         </div>
       </div>
-        <div class="row mt-4">
+        <!-- <div class="row mt-4">
+          <div class="col-12 col-lg-12"> -->
             <mat-tab-group class="comparer col-12" [ngClass]="{ 'slid-over': sidebar }">
-                <mat-tab>
-                  <ng-template mat-tab-label>
-                        <i class="pi pi-list" style="font-size: 3em"></i>
-                  </ng-template>
-                  <ng-template matTabContent>
-                      <div
-                      class="programs-listing"
-                    >
-                      <p-table [value]="programs" [dataKey]="'data.attributes.title'">
-                        <ng-template pTemplate="header">
-                          <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Genres</th>
-                            <th>Type</th>
-                            <th>Selected Alumni</th>
-                            <th>Application Deadline</th>
-                            <th>Application Fee</th>
-                          </tr>
-                        </ng-template>
-                        <ng-template pTemplate="body" let-programData let-program let-expanded="expanded">
-                          <tr class="program-row">
-                            <td>
-                                  <i [ngbTooltip]="expanded ? 'Collapse' : 'Expand'" container="body" [pRowToggler]="programData" [ngClass]="expanded ? 'pi pi-minus' : 'pi pi-plus'"></i>
-                                  <a ngbTooltip="Program Profile" container="body" [routerLink]="['/program', program.data.attributes.title]"><i class="pi pi-info-circle"></i></a>
-                                  <i ngbTooltip="Remove Program" container="body" class="remove-program" class="remove-program pi pi-times" (click)="removeProgram(program)"></i>
-                            </td>
-                            <td class="ui-p-3">{{ program.data.attributes.title }}</td>
-                            <td class="ui-p-2">{{ program.data.attributes.field_address }}</td>
-                            <td class="ui-p-2">{{ program.genres | join: ", " }}</td>
-                            <td class="ui-p-2">{{ program.residency_type | join: ", " }}</td>
-                            <td class="ui-p-2">{{ programData.data.attributes.field_notable_alumni }}</td>
-                            <td class="ui-p-2">{{ program.data.attributes.field_application_deadline}}</td>
-                            <td class="ui-p-2">${{ program.data.attributes.field_fee}}</td>
-                          </tr>
-                        </ng-template>
-                        <ng-template pTemplate="rowexpansion" let-programData>
-                              <tr>
-                                  <td [attr.colspan]="8">
-                                      <div class="ui-g ui-fluid school-details" [@rowExpansionTrigger]="'active'">
-                                        <div class="left ui-xs-12 ui-md-3">
-                                          <img src="{{ programData.logo }}" alt="">
-                                        </div>
-                                        <div class="right ui-xs-12 ui-md-9">
-                                          <div *ngIf="programData.data.attributes.body" class="ui-p-2" [innerHTML]="programData.data.attributes.body.processed"></div>
-                                        </div>
-                                      </div>
-                                  </td>
-                              </tr>
-                          </ng-template>
-                      </p-table>
-                    </div>
-                  </ng-template>
-                </mat-tab>
-                <mat-tab>
-                  <ng-template mat-tab-label>
-                        <i class="pi pi-users" style="font-size: 3em"></i>
-                  </ng-template>
-                  <ng-template matTabContent>
-                      <p-dataView #dv [value]="programs" filterBy="data.attributes.title">
-                      <p-header>
-                          <input class="form-control" type="search" pInputText placeholder="Search by name" (keyup)="dv.filter($event.target.value)">
-                      </p-header>
-                          <ng-template let-prog pTemplate="listItem">
-                              <p-panel class="people-dv">
-                                  <p-header class="people-dv-header">
-                                      <div class="logo">
-                                          <img src="{{prog.logo}}" alt="" />
-                                      </div>
-                                      <div class="title">
-                                         <h3>
-                                          {{prog.data.attributes.title}}
-                                         </h3>
-                                      </div>
-                                  </p-header>
-                                  <!-- <div class="people" *ngIf="prog.extras && prog.extras.people.length > 0">
-                                      <div class="program--person mt-4 mb-4 d-flex flex-wrap flex-row" *ngFor="let person of prog.extras.people">
-                                          <div class="program--person__left col-12 col-lg-2">
-                                              <div class="picture">
-                                                  <img src="{{person.obj.image}}" alt="">
-                                              </div>
-                                          </div>
-                                          <div class="program--person__right col-12 col-lg-10">
-                                              <h3 class="d-inline">
-                                                  {{person.obj.title}}
-                                              </h3>
-                                              <a class="website" href="{{person.obj.website}}" target="_blank">
-                                                  <i class="pi pi-external-link"></i>
-                                              </a>
-                                              <div class="bio" [innerHTML]="person.obj.body">
-                                                </div>
-                                          </div>
-        
-        
-                                      </div>
-                                    </div> -->
-                                    <div class="people d-flex flex-wrap justify-content-between" *ngIf="prog.extras && prog.extras.people.length > 0">
+              <mat-tab>
+                <ng-template mat-tab-label>
+                      <i class="pi pi-list" style="font-size: 3em"></i>
+                </ng-template>
+                <ng-template matTabContent>
+                    <div
+                    class="programs-listing"
+                  >
+                    <p-table [value]="programs" [dataKey]="'data.attributes.title'">
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th></th>
+                          <th>Name</th>
+                          <th>Address</th>
+                          <th>Genre(s)</th>
+                          <th>Residency Type(s)</th>
+                          <th>Application Deadline</th>
+                          <th>Application Fee</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-programData let-program let-expanded="expanded">
+                        <tr class="program-row">
+                          <td class="ui-p-1">
+                                <i [ngbTooltip]="expanded ? 'Collapse' : 'Expand'" container="body" [pRowToggler]="programData" [ngClass]="expanded ? 'pi pi-minus' : 'pi pi-plus'"></i>
+                                <i ngbTooltip="Remove Program" container="body" class="remove-program" class="remove-program pi pi-times" (click)="removeProgram(program)"></i>
+                          </td>
+                          <td class="ui-p-3">
+                            <a ngbTooltip="Program Profile" container="body" [routerLink]="['/program', program.data.attributes.title]">
+                              {{ program.data.attributes.title }}
+                            </a>
+                          </td>
+                          <td class="ui-p-1">{{ program.data.attributes.field_address }}</td>
+                          <td class="ui-p-3">
 
-                                        <div
-                                          class="program--person"
-                                          (click)="openModal(personModal)"
-                                          *ngFor="let person of prog.extras.people"
-                                        >
-                                            <div class="card p-2 text-center align-items-center">
-                                                <img
-                                                class="mt-4"
-                                                src="{{person.obj.image}}"
-                                                alt=""
-                                            />
-                                            <div class="card-body ">
-                                              <h5 class="card-title">{{ person.obj.title }}</h5>
-                                            </div>
-                                            </div>
-                                            <ng-template #personModal let-modal>
-                                                <div class="modal-header">
-                                                  <div class="header-info">
-                                                      <h4 class="modal-title d-inline pr-4">{{person.obj.title}}</h4>
-                                                      <a href="{{person.obj.website}}" target="_blank"><small>Website<i class="pi pi-external-link"></i></small></a>
-                                                  </div>
-                                                  <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
-                                                    <span aria-hidden="true">&times;</span>
-                                                  </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                  <div class="body">
-                                                    <img class="modal-image" src="{{person.obj.image}}" alt="">
-                                                    <p [innerHTML]="person.obj.body"></p>
-                                                  </div>
-                                                </div>
-                                              </ng-template>
-                                        </div>
+                            <mat-chip-list>
+                              <mat-chip
+                              *ngFor="let genre of program.genres"
+                              class="genre"
+                              [ngClass]="genre"
+                              [ngbTooltip]="genre"
+                              >
+                              {{ genre|slice:0:1 }}
+                            </mat-chip>
+                            </mat-chip-list>
+
+                          </td>
+                          <td class="ui-p-2">{{ program.residency_type | join: ", " }}</td>
+                          <!-- <td class="ui-p-2">{{ programData.data.attributes.field_notable_alumni }}</td> -->
+                          <td class="ui-p-1">{{ program.data.attributes.field_application_deadline}}</td>
+                          <td class="ui-p-1">${{ program.data.attributes.field_fee}}</td>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="rowexpansion" let-programData>
+                            <tr>
+                                <td [attr.colspan]="7">
+                                    <div class="ui-g ui-fluid school-details" [@rowExpansionTrigger]="'active'">
+                                      <div class="left ui-xs-12 ui-md-3">
+                                        <img src="{{ programData.logo }}" alt="">
+                                      </div>
+                                      <div class="right ui-xs-12 ui-md-9">
+                                        <div *ngIf="programData.data.attributes.body" class="ui-p-2" [innerHTML]="programData.data.attributes.body.processed"></div>
+                                      </div>
                                     </div>
-                              </p-panel>
-                          </ng-template>
-                      <p-footer>
-                      </p-footer>
-                      </p-dataView>
-                  </ng-template>
-                </mat-tab>
-                <mat-tab>
-                  <ng-template mat-tab-label>
-                        <i class="pi pi-chart-bar" style="font-size: 3em"></i>
-                  </ng-template>
-                  <ng-template matTabContent>
-                    <app-comp-charts [programs]="programs"></app-comp-charts>
-                  </ng-template>
-                </mat-tab>
-                <mat-tab>
-                  <ng-template mat-tab-label>
-                      <i class="pi pi-calendar" style="font-size: 3em"></i>
-                  </ng-template>
-                  <ng-template matTabContent>
-                    <div class="row">
-                      <div class="col-12">
-                        <!-- Add the timeline -->
-                        <vertical-timeline>
-                            <vertical-timeline-card *ngFor="let time of programs" [dateValue]="time.data.attributes.field_application_deadline|date">
-                                {{ time.data.attributes.title }}
-                                ${{ time.data.attributes.field_fee}}
-                            </vertical-timeline-card>
-                          </vertical-timeline>
-                      </div>
-                    </div>
-                  </ng-template>
-                </mat-tab>
-            </mat-tab-group>
-        </div>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                  </div>
+                </ng-template>
+              </mat-tab>
+              <mat-tab>
+                <ng-template mat-tab-label>
+                      <i class="pi pi-users" style="font-size: 3em"></i>
+                </ng-template>
+                <ng-template matTabContent>
+                    <p-dataView #dv [value]="peoplePrograms">
+                    <p-header>
+                        <input class="form-control" type="search" pInputText placeholder="Search by name" (keyup)="peopleFilter($event.target.value)">
+                    </p-header>
+                        <ng-template let-prog pTemplate="listItem">
+                            <p-panel class="people-dv">
+                                <p-header class="people-dv-header">
+                                    <div class="logo">
+                                        <img src="{{prog.logo}}" alt="" />
+                                    </div>
+                                    <div class="title">
+                                       <h3>
+                                        {{prog.data.attributes.title}}
+                                       </h3>
+                                    </div>
+                                </p-header>
+                                  <div class="people d-flex flex-wrap justify-content-center justify-content-lg-start" *ngIf="prog.extras && prog.extras.people.length == 0">
+                                    <div class="program--person">
+                                      <div class="card p-2 text-center align-items-center">
+                                        <div class="card-body ">
+                                          <h5 class="card-title">No people here...</h5>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="people d-flex flex-wrap justify-content-center justify-content-lg-start" *ngIf="prog.extras && prog.extras.people.length > 0">
+
+                                      <div
+                                        class="program--person"
+                                        (click)="openModal(personModal)"
+                                        *ngFor="let person of prog.extras.people"
+                                      >
+                                          <div class="card p-2 text-center align-items-center">
+                                              <img
+                                              class="mt-4"
+                                              src="{{person.obj.image}}"
+                                              alt=""
+                                          />
+                                          <div class="card-body ">
+                                            <h5 class="card-title">{{ person.obj.title }}</h5>
+                                          </div>
+                                          </div>
+                                          <ng-template #personModal let-modal>
+                                              <div class="modal-header">
+                                                <div class="header-info">
+                                                    <h4 class="modal-title d-inline pr-4">{{person.obj.title}}</h4>
+                                                    <a href="{{person.obj.website}}" target="_blank"><small>Website<i class="pi pi-external-link"></i></small></a>
+                                                </div>
+                                                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                                  <span aria-hidden="true">&times;</span>
+                                                </button>
+                                              </div>
+                                              <div class="modal-body">
+                                                <div class="body">
+                                                  <img class="modal-image" src="{{person.obj.image}}" alt="">
+                                                  <p [innerHTML]="person.obj.body"></p>
+                                                </div>
+                                                <div *ngIf="person.obj.books && person.obj.books.length > 0" class="books">
+                                                  <div class="row m-0">
+                                                    <mat-card class="col col-lg-2 book" *ngFor="let book of person.obj.books">
+                                                      <mat-card-content>
+                                                        <span class="d-block mb-2">{{book.title}}</span>
+                                                        <img src="{{book.cover}}" alt="{{book.title}}" class="mw-100 mh-100">
+                                                        <small class="d-block mt-2">{{book.pubDate}}</small>
+                                                      </mat-card-content>
+                                                    </mat-card>
+                                                  </div>
+                                                </div>
+                                              </div>
+                                            </ng-template>
+                                      </div>
+                                  </div>
+                            </p-panel>
+                        </ng-template>
+                    <p-footer>
+                    </p-footer>
+                    </p-dataView>
+                </ng-template>
+              </mat-tab>
+          </mat-tab-group>
+          <!-- </div>
+
+        </div> -->
     </div>
 </div>
 

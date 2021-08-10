@@ -1,21 +1,78 @@
 @import "./../../styles/partials/variables";
 @mixin genreIcon{
-    .genre{
-        display: inline-block;
-        color: white;
-        margin: 0 3px;
-        padding: 5px 10px;
-        font-family: $quicksand;
-    }
-
-
-    .fiction{
+  .mat-chip{
+    &.genre{
+      display: inline-block;
+      color: white;
+      margin: 0 3px;
+      padding: 5px 10px;
+      font-family: $quicksand;
+      background: $link-color;
+      &.Fiction{
         background: $purple;
-    }
-    .poetry{
+      }
+      &.Poetry{
         background: $blue;
-    }
-    .nf{
+      }
+      &.Non-fiction{
         background: $red;
+      }
+      &.Translation{
+        background: darken($red, 25%);
+      }
+      &.Playwriting{
+        background: $green;
+      }
+      &.Screenwriting{
+        background: darken($blue, 25%);
+      }
     }
+  }
+
+
+
+
+}
+
+@mixin breakpoint($breakpoint) {
+  @if $breakpoint == 'sm-down' or $breakpoint == 'down'{
+    @media screen and (max-width: 576px){
+      @content;
+    }
+  }
+  @if $breakpoint == 'md-down'{
+    @media screen and (max-width: 768px){
+      @content;
+    }
+  }
+  @if $breakpoint == 'lg-down'{
+    @media screen and (max-width: 992px){
+      @content;
+    }
+  }
+  @if $breakpoint == 'sm'{
+    @media screen and (min-width: 576px){
+      @content;
+    }
+  }
+  @if $breakpoint == 'md'{
+    @media screen and (min-width: 768px){
+      @content;
+    }
+  }
+  @if $breakpoint == 'lg'{
+    @media screen and (min-width: 992px){
+      @content;
+    }
+  }
+  @if $breakpoint == 'xl'{
+    @media screen and (min-width: 1200px){
+      @content;
+    }
+  }
+  @if $breakpoint == 'xxl'{
+    @media screen and (min-width: 1440px){
+      @content;
+    }
+  }
 }

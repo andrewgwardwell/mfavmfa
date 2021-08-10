@@ -16,21 +16,24 @@ import {MessageModule} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
 import { ChartsModule } from 'ng2-charts';
-import {FormsModule} from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DragDropModule} from 'primeng/dragdrop';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {MatCardModule} from '@angular/material/card';
 import {MatTabsModule} from '@angular/material/tabs';
 import {MatListModule} from '@angular/material/list';
+import {MatChipsModule} from '@angular/material/chips';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {PanelModule} from 'primeng/panel';
 import {StripeCheckoutModule} from 'ng-stripe-checkout';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { ReactiveFormsModule } from '@angular/forms';
-import { VerticalTimelineModule } from 'angular-vertical-timeline';
+import {MatInputModule} from '@angular/material/input';
+import {MatCheckboxModule} from '@angular/material/checkbox';
+
 
 //components
 import { AppComponent } from './app.component';
@@ -60,6 +63,8 @@ import { CompChartsComponent } from './shared/comp-charts/comp-charts.component'
 import { ProgramComponent } from './pages/program/program.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PaymentComponent } from './pages/payment/payment.component';
+import { DiscoverComponent } from './pages/discover/discover.component';
+import { MatButtonModule, MatSelectModule } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -75,7 +80,8 @@ import { PaymentComponent } from './pages/payment/payment.component';
     CompChartsComponent,
     ProgramComponent,
     HomeComponent,
-    PaymentComponent
+    PaymentComponent,
+    DiscoverComponent
   ],
   imports: [
     BrowserModule,
@@ -108,7 +114,12 @@ import { PaymentComponent } from './pages/payment/payment.component';
     NgbModule,
     MatMenuModule,
     ReactiveFormsModule,
-    VerticalTimelineModule
+    MatChipsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatCheckboxModule,
+    MatSelectModule,
+    MatButtonModule
   ],
   providers: [
     ProgramsService,

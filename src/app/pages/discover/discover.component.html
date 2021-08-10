@@ -1,0 +1,135 @@
+<p-toast position="top-right"></p-toast>
+<div class="program-detail-wrapper container mt-4 program-body">
+  <div class="row" *ngIf="loading">
+      <div class="col-12">
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </div>
+  </div>
+  <div class="row" *ngIf="!loading">
+    <form class="col-12 col-lg-12" [formGroup]="filters">
+      <div class="row">
+        <div class="col-lg-2">
+          <p>
+            <mat-form-field>
+              <mat-label>Name</mat-label>
+              <input formControlName="name" type="text" matInput>
+            </mat-form-field>
+          </p>
+        </div>
+        <div *ngIf="genres" class="col-lg-2">
+          <mat-form-field>
+            <mat-label>Genre(s)</mat-label>
+            <mat-select formControlName="genres" multiple>
+                <mat-option *ngFor="let term of genres.terms" [value]="term.name">
+                  {{ term.name }}
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div *ngIf="residency_types" class="col-lg-2">
+          <mat-form-field>
+            <mat-label>Residency Type(s)</mat-label>
+            <mat-select formControlName="resTypes" multiple>
+                <mat-option *ngFor="let term of residency_types.terms" [value]="term.name">
+                  {{ term.name }}
+                </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-lg-6 text-right">
+          <button class="btn" mat-stroked-button type="button" (click)="resetForm()">Reset</button>
+        </div>
+      </div>
+
+
+    </form>
+
+  </div>
+
+  <div *ngIf="!loading" class="row d-flex">
+
+    <mat-card *ngFor="let program of selectablePrograms" class="col-lg-4 discover-program">
+      <mat-card-header>
+        <mat-card-title>
+          <a [routerLink]="['/program', program.title]"><h3 [innerHTML]="program.title"></h3></a>
+        </mat-card-title>
+        <mat-card-subtitle>
+          {{program.field_address}}
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div *ngIf="program.field_logo" class="row mx-0 my-2">
+          <div class="col col-12 d-flex justify-content-center">
+            <img mat-card-avatar src="{{program.field_logo}}"/>
+          </div>
+        </div>
+        <div class="row mx-0 mt-4 mb-2">
+          <div class="col-12 col">
+            {{program.body}}
+          </div>
+        </div>
+        <div *ngIf="program.genres && program.genres.length > 0" class="row mx-0 my-2">
+          <div class="col-12 col">
+            <div class="row m-0">
+              <label>Genres:</label>
+            </div>
+            <div class="row m-0">
+              <mat-chip-list>
+                <mat-chip *ngFor="let genre of program.genres;" class="genre" [ngClass]='genre'>{{genre}}</mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="program.residency_type && program.residency_type.length > 0" class="row mx-0 my-2">
+          <div class="col-12 col">
+            <div class="row m-0">
+              <label>Residency Type(s):</label>
+            </div>
+            <div class="row m-0">
+              <span *ngFor="let type of program.residency_type;let l = last;">{{type}}{{l ? '' : ', '}}</span>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="m-0">
+        <div class="row">
+          <div class="col-12 col-lg-12">
+            <button
+            mat-stroked-button
+            type="button"
+            (click)="goToNextStep(program)"
+            label="Add"
+            class="btn"
+            [hidden]="hasProgram(program)"
+            ngbTooltip="Add Program"
+              >
+    
+              <span>
+                Add
+              </span>
+              <i class="pi pi-plus"></i>
+            </button>
+            <button
+            mat-stroked-button
+            type="button"
+            (click)="removeProgram(program)"
+            label="Add"
+            class="btn btn-success"
+            ngbTooltip="Remove Program"
+            [hidden]="!hasProgram(program)"
+              >
+              <i class="pi pi-check"></i>
+              <span>
+                Added
+              </span>
+    
+            </button>
+          </div>
+        </div>
+
+
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

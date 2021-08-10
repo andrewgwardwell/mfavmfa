@@ -1,4 +1,5 @@
 @import "./../../styles/partials/variables";
+@import "./../../styles/partials/mixins";
 .program-body{
   background: white;
 }
@@ -25,20 +26,11 @@
   padding-right: 20px;
   padding-bottom: 20px;
 }
-.genres{
-  font-family: $quicksand;
-  padding: 10px;
-  margin: 10px 10px 10px 0;
-  color: white;
-  display: inline-block;
-
-  &.fiction{
-    background: $blue;
-  }
-  &.poetry{
-    background: $purple;
-  }
-  &.nf{
-    background: $red;
+.book{
+  border: none;
+  img{
+    height: 175px
   }
 }
+
+@include genreIcon;

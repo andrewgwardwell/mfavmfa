@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit {
       this.userService.getUser(response.user_id).subscribe((user:any) => {
         this.userService.storeInfo(user);
         let u = new MfaUser(user);
-        if(u.subscriptionId){
+        if(u.subscriptionId || u.isAdmin || u.appRole && u.appRole === 'Freeloader'){
           this.stripeService.getInfo(u.uid).subscribe((info:any) => {
             let status = info.plan.status;
             localStorage.setItem('stripeStatus', status);

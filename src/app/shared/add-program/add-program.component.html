@@ -15,12 +15,10 @@
                 <div class="drag-title">
                     <h3>{{program.title}}</h3><a [routerLink]="['/program', program.title]"><i ngbTooltip="View Program Profile" container="body" class="pi pi-info-circle"></i></a>
                 </div>
-                <div (click)="addProgram(program)">
-                        <span *ngFor="let genre of program.genres;" class="genre" [ngClass]='{"fiction":genre == "Fiction", "nf": genre == "Creative-Non-fiction", "poetry": genre == "Poetry"}'>{{genre}}</span>
-                </div>
-                <div class="add-button" (click)="addProgram(program)" container="body">
-                    <i placement="left" ngbTooltip="Add Program" class="pi pi-plus"></i> 
-                </div>
+
+                <button mat-stroked-button class="btn add-button" (click)="addProgram(program)" container="body">
+                    Add <i placement="left" ngbTooltip="Add Program" class="pi pi-plus"></i> 
+                </button>
             </div>
         </ng-template>
     <p-footer>
