@@ -9,30 +9,74 @@
       font-family: $quicksand;
       background: $link-color;
       &.Fiction{
+        // #aa90c6
         background: $purple;
       }
       &.Poetry{
+        // #90c6c5
         background: $blue;
       }
       &.Non-fiction{
+        // #c69091
         background: $red;
       }
       &.Translation{
+        // #8e494a
         background: darken($red, 25%);
       }
-      &.Playwriting{
+      &.Environmental{
+        // #acc690
         background: $green;
       }
+      &.Disciplinary{
+        background: #c564bd;
+      }
+      &.Image{
+        background: #c56467;
+      }
+      &.Young{
+        // #c6bc90
+        background: $yellow;
+      }
       &.Screenwriting{
-        background: darken($blue, 25%);
+        background: #7f8e49;
+      }
+      &.Drama{
+        background: #8e4971;
+      }
+      &.Playwriting{
+        background: #49618e;
+      }
+      &.Television{
+        background: #498e8c;
+      }
+      &.Travel{
+        // #6d8e49
+        background: darken($green, 25%);
+      }
+      &.Medicine{
+        // #a3511b
+        background: darken($orange, 25%);
+      }
+      &.Publishing{
+        // #e08243
+        background: darken($orange, 5%);
+      }
+      &.Psychogeographies{
+        // #8e8149
+        background: darken($yellow, 25%);
+      }
+      &.Graphic{
+        // #e49159
+        background: $orange;
       }
     }
   }
-
-
-
-
 }
+
+
+
+
 
 @mixin breakpoint($breakpoint) {
   @if $breakpoint == 'sm-down' or $breakpoint == 'down'{

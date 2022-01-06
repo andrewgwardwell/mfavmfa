@@ -1,4 +1,4 @@
-<div class="program-detail-wrapper container mt-4 program-body">
+<div class="program-detail-wrapper container my-4 program-body">
   <div class="row" *ngIf="loading">
       <div class="col-12">
           <mat-progress-bar mode="indeterminate"></mat-progress-bar>
@@ -29,8 +29,8 @@
         </div>
       </div>
 
-      <div class="row my-2">
-        <div class="col-lg-12 m-2">
+      <div class="row my-2 d-none d-lg-flex">
+        <div class="col-12 m-2">
           <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
               <mat-card-subtitle class="mat-small">Residency Type(s)</mat-card-subtitle>
               <h3
@@ -39,25 +39,25 @@
               >{{ type }}</h3>
           </mat-card>
         </div>
-        <div class="col-lg-12 m-2">
+        <div class="col-12 m-2">
           <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
               <mat-card-subtitle class="mat-small">Application Date</mat-card-subtitle>
               <h3>{{ program.deadline|date:'shortDate' }}</h3>
           </mat-card>
         </div>
-        <div class="col-lg-12 m-2">
+        <div class="col-12 m-2">
           <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
               <mat-card-subtitle class="mat-small">Application Fee</mat-card-subtitle>
               <h3>${{ program.fee }}</h3>
           </mat-card>
         </div>
-        <div class="col-lg-12 m-2">
+        <div class="col-12 m-2">
           <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
               <mat-card-subtitle class="mat-small">Max Class Size</mat-card-subtitle>
               <h3>{{ program.maxClassSize }}</h3>
           </mat-card>
         </div>
-        <div class="col-lg-12 m-2">
+        <div class="col-12 m-2">
           <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
               <mat-card-subtitle class="mat-small">Duration</mat-card-subtitle>
               <h3>{{ program.minDuration }}</h3>
@@ -66,7 +66,7 @@
       </div>
 
     </div>
-    <div class="col-12 col-md-10 d-flex flex-column">
+    <div class="col-12 col-lg-10 d-flex flex-column">
       <div class="row mt-4">
         <div class="col-12 col-lg-6">
           <h2 class="d-block">{{ program.title }}</h2>
@@ -76,7 +76,7 @@
             <i class="pi pi-external-link"></i>
           </a>
         </div>
-        <div class="col-12 col-lg-6 d-flex justify-content-end">
+        <div class="col-12 my-3 my-lg-0 col-lg-6 d-flex justify-content-end">
           <mat-chip-list>
             <mat-chip
             *ngFor="let genre of program.genres"
@@ -108,7 +108,7 @@
             <h3>People</h3>
             <hr>
             <div
-              class="people-grid d-flex flex-wrap flex-row justify-content-start"
+              class="people-grid d-flex flex-wrap flex-row justify-content-center justify-content-lg-start"
             >
               <div
                 class="program--person"
@@ -158,12 +158,47 @@
           </div>
         </div>
       </div>
-      <div class="row">
+      <div class="row" *ngIf="program.alumni">
           <div class="col-12">
             <h3>Alumni</h3>
             <hr>
             <p [innerHTML]="program.alumni"></p>
           </div>
+      </div>
+      <div class="row d-lg-none">
+        <div class="col-12">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Residency Type(s)</mat-card-subtitle>
+              <h3
+              *ngFor="let type of program.residency_type"
+              class="type"
+              >{{ type }}</h3>
+          </mat-card>
+        </div>
+        <div class="col-12">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Application Date</mat-card-subtitle>
+              <h3>{{ program.deadline|date:'shortDate' }}</h3>
+          </mat-card>
+        </div>
+        <div class="col-12">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Application Fee</mat-card-subtitle>
+              <h3>${{ program.fee }}</h3>
+          </mat-card>
+        </div>
+        <div class="col-12">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Max Class Size</mat-card-subtitle>
+              <h3>{{ program.maxClassSize }}</h3>
+          </mat-card>
+        </div>
+        <div class="col-12">
+          <mat-card class="d-flex d-flex flex-column justify-content-between mx-2">
+              <mat-card-subtitle class="mat-small">Duration</mat-card-subtitle>
+              <h3>{{ program.minDuration }}</h3>
+          </mat-card>
+        </div>
       </div>
     </div>
   </div>

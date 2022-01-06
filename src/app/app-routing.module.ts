@@ -12,6 +12,7 @@ import { SubscriptionGuard } from './shared/guards/subscription.guard';
 import { AuthGuard } from './shared/guards/auth.guard';
 import { NotAuthGuard } from './shared/guards/not-auth.guard';
 import { DiscoverComponent } from './pages/discover/discover.component';
+import { TermsComponent } from './pages/terms/terms.component';
 
 
 const routes: Routes = [
@@ -61,6 +62,11 @@ const routes: Routes = [
     component: PaymentComponent,
     canActivate: [AuthGuard],
     data: { title: 'Payment' }
+  },
+  {
+    path: 'terms',
+    component: TermsComponent,
+    data: { title: 'Terms of Use' }
   },
   { path: "", redirectTo: '/introduction', pathMatch: "full" },
 ];

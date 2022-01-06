@@ -65,8 +65,7 @@
           </div>
         </div>
         <div class="row mx-0 mt-4 mb-2">
-          <div class="col-12 col">
-            {{program.body}}
+          <div class="col-12 col" [innerHTML]="program.body">
           </div>
         </div>
         <div *ngIf="program.genres && program.genres.length > 0" class="row mx-0 my-2">

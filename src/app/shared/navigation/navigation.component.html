@@ -1,6 +1,6 @@
 
-<div class="container">
-        <nav class="main-nav navbar navbar-expand-lg navbar-light bg-light">
+<div class="bg-white">
+        <nav class="main-nav navbar navbar-expand-lg navbar-light container">
                 <a class="navbar-brand" href="/">
                     <img src="../../../assets/images/logo.png" alt="mfa vs mfa"/>
                 </a>
@@ -23,7 +23,10 @@
                             <a class="nav-link" (click)="logout()">Logout</a>
                         </li>
                         <li *ngIf="!user" class="nav-item">
-                            <a class="nav-link" (click)="logout()">Login</a>
+                          <a class="nav-link" routerLink="/register">Register</a>
+                        </li>
+                        <li *ngIf="!user" class="nav-item">
+                          <a class="nav-link" (click)="logout()">Login</a>
                         </li>
                     </ul>
                   </div>

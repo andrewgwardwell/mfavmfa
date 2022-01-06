@@ -6,6 +6,10 @@ import {environment} from '../../environments/environment.prod';
 export class ProgramsService {
   programsUrl = `${environment.apiUrl}/jsonapi/node/program/`;
   constructor(private http: HttpClient) {}
+  getOpenPrograms(){
+    let baseUrl = `${environment.apiUrl}/jsonapi/custom/open-programs`;
+    return this.http.get(baseUrl);
+  }
   getSimplePrograms(){
     let baseUrl = `${environment.apiUrl}/jsonapi/custom/programs`;
     return this.http.get(baseUrl);

@@ -1,4 +1,5 @@
-import { Component, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, ViewEncapsulation } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -6,7 +7,15 @@ import { Component, ViewEncapsulation } from '@angular/core';
   styleUrls: ['./app.component.scss'],
   encapsulation: ViewEncapsulation.None  
 })
-export class AppComponent {
+export class AppComponent{
   title = 'ng-mfa';
+
+  constructor(private router: Router){
+    this.router.events.subscribe((route) => {
+      if(route instanceof NavigationEnd){
+        window.scrollTo(0, 0);
+      }
+    });
+  }
   
 }

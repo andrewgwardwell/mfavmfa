@@ -1,15 +1,15 @@
 <div class="container user mt-4">
   <ul class="list-group list-group-flush">
-    <li class="list-group-item">
+    <li class="list-group-item" *ngIf="user">
         <dl class="row">
-            <dt class="col-12 col-lg-2"><label for="">Username:</label> </dt>
-            <dd class="col-12 col-lg-10">{{ user.name }}</dd>
+            <!-- <dt class="col-12 col-lg-2"><label for="">Username:</label> </dt>
+            <dd class="col-12 col-lg-10">{{ user.name }}</dd> -->
             <dt class="col-12 col-lg-2"><label for="">Email:</label> </dt>
             <dd class="col-12 col-lg-10">{{ user.email }}</dd>
-            <dt class="col-12 col-lg-2"><label for="">Stripe Subscription ID:</label> </dt>
+            <!-- <dt class="col-12 col-lg-2"><label for="">Stripe Subscription ID:</label> </dt>
             <dd class="col-12 col-lg-10">{{ user.subscriptionId }}</dd>
             <dt class="col-12 col-lg-2"><label for="">Stripe Customer ID:</label> </dt>
-            <dd class="col-12 col-lg-10">{{ user.customerId }}</dd>
+            <dd class="col-12 col-lg-10">{{ user.customerId }}</dd> -->
             <dt class="col-12 col-lg-2"><label for="">Subscription Plan:</label></dt>
             <dd class="col-12 col-lg-10">{{ plan }}</dd>
             <dt class="col-12 col-lg-2"><label for="">Status:</label></dt>

@@ -1,0 +1,68 @@
+<form [formGroup]="registerForm" (ngSubmit)="register()">
+  <div class="form-group required">
+    <label for="email">Email:</label>
+    <input class="form-control" formControlName="email" type="text" required/>
+    <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+        <div *ngIf="email.errors.required">
+          Email is required.
+        </div>
+        <div *ngIf="email.errors.email">
+            Email is not valid.
+        </div>
+     </div>
+  </div>
+  <div class="form-group required">
+      <label for="password">Password:</label>
+      <input no-validate no-referer class="form-control" formControlName="password" type="password" required/>
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+          <div *ngIf="password.errors.required">
+            Password is required.
+          </div>
+          <div *ngIf="password.errors.uppercase">
+            Password must include an uppercase letter.
+          </div>
+          <div *ngIf="password.errors.lowercase">
+            Password must include a lowercase letter.
+          </div>
+          <div *ngIf="password.errors.numeric">
+            Password must include a number.
+          </div>
+          <div *ngIf="password.errors.length">
+              Password is too short.
+          </div>
+       </div>
+  </div>
+  <div class="form-group required">
+      <label for="confirm">Confirm Password:</label>
+      <input no-validate no-referer class="form-control" formControlName="confirm" type="password" required/>
+      <div *ngIf="confirm.invalid && (confirm.dirty || confirm.touched)" class="alert alert-danger">
+        <div *ngIf="confirm.errors.required">
+          Confirm Password is required.
+        </div>
+        <div *ngIf="confirm.errors.MatchPassword">
+          Passwords don't match.
+        </div>
+      </div>
+  </div>
+  <div class="form-group required">
+    <label for="billing">Plan:</label>
+    <div class="billing-container">
+      <mat-button-toggle-group class="billing" required formControlName="billing" name="billing" aria-label="Billing">
+        <mat-button-toggle value="monthly">$4.99/month</mat-button-toggle>
+        <mat-button-toggle value="yearly">$44.99/year</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="card-element">Payment Information:</label>
+    <div id="card-element"></div>
+  </div>
+
+  <div *ngIf="stripeError" class="alert alert-danger">
+    {{stripeError}}
+ </div>
+  <div *ngIf="registerForm.invalid && (registerForm.dirty || registerForm.touched) && (registerForm.errors && registerForm.errors.server)" class="alert alert-danger">
+      {{serverError}}
+  </div>
+  <button class="btn btn-primary" type="submit" [disabled]="!registerForm.valid && !stripeError">Register</button>
+</form>

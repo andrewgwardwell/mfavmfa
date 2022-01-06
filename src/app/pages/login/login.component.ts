@@ -3,7 +3,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import {MessageService} from 'primeng/api';
 import { Router } from '@angular/router';
-import { StripeService } from 'src/app/services/stripe.service';
+import { DrupalStripeService } from 'src/app/services/stripe.service';
 import { MfaUser } from 'src/app/shared/models/user/user';
 import { FormBuilder, FormGroup} from '@angular/forms';
 
@@ -18,7 +18,7 @@ export class LoginComponent implements OnInit {
     password: ['']
   });
   serverError:string = '';
-  constructor(private authService: AuthService, private msg: MessageService, private userService: UserService, public router: Router, public stripeService: StripeService, public fb: FormBuilder) { }
+  constructor(private authService: AuthService, private msg: MessageService, private userService: UserService, public router: Router, public stripeService: DrupalStripeService, public fb: FormBuilder) { }
 
   ngOnInit() {
   }
@@ -36,6 +36,7 @@ export class LoginComponent implements OnInit {
   }
   get userName() { return this.loginForm.get('userName'); }
   get password() { return this.loginForm.get('password'); }
+  
   login() {
     let data = {
       'name': this.userName.value,

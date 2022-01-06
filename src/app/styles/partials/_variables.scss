@@ -6,6 +6,8 @@ $green: #acc690;
 $blue: #90c6c5;
 $purple:#aa90c6;
 $red:#c69091;
+$yellow:#c6bc90;
+$orange:#e49159;
 
 $link-color: #525151;
 
@@ -23,4 +25,28 @@ $text-muted: white !default;
 }
 small{
     font-family: $quicksand;
+}
+
+.bg-red{
+  background: $red;
+}
+
+.bg-green{
+  background: $green;
+}
+
+.bg-purple{
+  background: $purple;
+}
+
+.color-red{
+  color: $red;
+}
+
+.color-green{
+  color: $green;
+}
+
+.color-purple{
+  color: $purple;
 }

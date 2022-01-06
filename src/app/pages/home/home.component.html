@@ -1,31 +1,108 @@
-<div class="container-fluid home-sign-up">
-      <div class="container">
-        <div class="row">
-            <div class="home-section home-section--text col-12 col-md-6">
-                <h2>Launching Soon!</h2>
-                <p>A web app that will help you make the right choice for your Creative Writing MFA. Sign up below to get news such as launch announcement and new features from us.</p>
-                <form *ngIf="!submitted" [formGroup]="signUpForm" (ngSubmit)="onSubmit()">
-                        <div class="form-group">
-                            <input class="form-control" name="email" type="text" formControlName="email" placeholder="your@email.com" required>
-                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-                        </div>
-                        <button class="btn btn-primary" type="submit" [disabled]="!signUpForm.valid">Submit</button>
-                    </form>
-                    <div *ngIf="submitted" [innerHtml]="msg">
+<div class="container-fluid home-sign-up px-0">
+      <div class="row bg-light">
+        <div class="container has-bg-image" [ngStyle]="{backgroundImage:'url(/assets/images/mfavmfa-crop.png)'}">
+          <div class="row lin-row">
+            <div class="col-12 col-lg-7">
+              <div class="p-1 pb-1 p-lg-5 pb-lg-5">
+                <div class="container-fluid py-5 align-items-center" >
+                  <h1 class="display-5 fw-bold">Get the full picture</h1>
+                  <p class="w-100">MFA vs. MFA provides you with information from around the web about Academic institutions, their faculty, and their locations. Our goal is to give our users a picture of what their life during an MFA in a cohesive format.</p>
+                  <mat-grid-list *ngIf="peopleCount && programCount && genreCount" class="stats my-4" cols="3" rowHeight="3:1">
+                    <mat-grid-tile class="color-green">
+                      <div class="d-flex flex-column text-center">
+                        <h2>{{peopleCount}}</h2>
+                        faculty
+                      </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="color-red">
+                      <div class="d-flex flex-column text-center">
+                        <h2>{{programCount}}</h2>
+                        programs
+                      </div>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="color-purple ">
+                      <div class="d-flex flex-column text-center">
+                        <h2>{{genreCount}}</h2>
+                        genres
+                      </div>
+                    </mat-grid-tile>
+                  </mat-grid-list>
+                  <a class="btn btn-primary btn-md mt-2" type="button" [routerLink]="['/register']">Ready to get started?</a>
                 </div>
+              </div>
             </div>
-            <div class="home-section col-12 col-md-6">
-                <h2>Get the full picture</h2>
-                <p>MFA vs. MFA provides you with information from around the web about Academic institutions, their faculty, and their locations.</p>
-                <ul>
-                    <li>Save and compare programs by program details, faculty, and geographic information.</li>
-                    <li>View application deadlines in a single timeline.</li>
-                    <li>Contact information for selected programs.</li>
-                    <li>Take an in depth look at potential mentors.</li>
-                </ul>
-                <p>Our goal is to give our users a cohesive picture of what their life during and after an MFA might look like based on facts.</p>
-                <a [routerLink]="['/register']">Ready to get started? Start the free trial.</a>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="container bg-white">
+        <div class="row">
+
+          <div class="home-section bg-red col-12 col-lg-6">
+              <h2>{{programCount}} Programs</h2>
+              <p>Information about each program will help you get a clear picture of application and life within the insitution. This includes:</p>
+              <ul>
+                  <li>Overview and Website</li>
+                  <li>Residency Types and Genres</li>
+                  <li>Class size and Duration</li>
+                  <li>Application Deadlines and Fees</li>
+                  <li>Location</li>
+                  <li>Program Admin contact information</li>
+                  <li>Faculty</li>
+              </ul>
+              <a [routerLink]="['/register']">Ready to get started? Start the free trial.</a>
+          </div>
+          <div class="home-section home-section--text col-12 col-lg-6 d-none d-lg-flex">
+            <div class="row my-2 ">
+              <div class="col-12">
+                <img *ngFor="let program of programs|slice:0:54" class="m-2 p-1 col-lg-1 home-program" [ngbTooltip]="program.title" src="{{program.field_logo}}"/>
+              </div>
             </div>
+        </div>
+        </div>
+        <div class="row">
+          <div class="home-section home-section--text col-12 col-lg-6 d-none d-lg-flex">
+            <div class="row my-2 stats">
+              <div class="col-12">
+                <img *ngFor="let person of people|slice:0:20" class="m-2 p-1 col-lg-2 home-person" 
+                src="{{person.image}}"
+                alt=""
+                [ngbTooltip]="person.title"
+                />
+              </div>
+            </div>
+        </div>
+          <div class="bg-green home-section col-12 col-lg-6">
+              <h2>{{peopleCount}} Faculty</h2>
+              <p>Perhaps the most important factor when choosing an program is who you will be learning from. We provide:</p>
+              <ul>
+                  <li>Instructor Bio</li>
+                  <li>Instructor Website</li>
+                  <li>Photo</li>
+                  <li>Books authored (beta)</li>
+              </ul>
+              <a [routerLink]="['/register']">Ready to get started? Start the free trial.</a>
+          </div>
+
+
+        </div>
+        <div class="row">
+
+          <div class="home-section bg-purple col-12 col-lg-6">
+              <h2>{{genreCount}} Genres</h2>
+              <p>All programs can be filtered by genre, or residency type, and searched for by title. Discover programs that specialize in your area of focus:</p>
+              <a [routerLink]="['/register']">Ready to get started? Start the free trial.</a>
+          </div>
+                    <div class="home-section home-section--text col-12 col-lg-6 d-none d-lg-flex">
+              <div class="row my-2 ">
+                <div class="col-12">
+                  <p-chart type="horizontalBar" [data]="chartData" [options]="chartOptions"></p-chart>
+                </div>
+              </div>
+          </div>
+
         </div>
     </div>
 </div>

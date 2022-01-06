@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/services/user.service';
 import { MfaUser } from 'src/app/shared/models/user/user';
-import { StripeService } from 'src/app/services/stripe.service';
+import { DrupalStripeService } from 'src/app/services/stripe.service';
 import {StripeCheckoutLoader, StripeCheckoutHandler} from 'ng-stripe-checkout';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { forkJoin } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-user',
@@ -20,12 +22,21 @@ export class UserComponent implements OnInit {
   currentPeriodEnd: number;
   private stripeCheckoutHandler: StripeCheckoutHandler;
 
-  constructor(private userService: UserService, private stripeService: StripeService, private stripeCheckoutLoader: StripeCheckoutLoader, private router: Router, private authService: AuthService) { }
+  constructor(private userService: UserService, private stripeService: DrupalStripeService, private stripeCheckoutLoader: StripeCheckoutLoader, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
     if(this.rawUser){
-      this.user = new MfaUser(this.rawUser);
-      this.userInfoFromServer();
+      
+      this.userService.getUser(this.rawUser.uid[0].value).pipe(
+        tap((user) => {
+          this.user = new MfaUser(user);
+          this.userService.storeInfo(user);
+        })
+
+      ).subscribe((resp) => {
+        this.userInfoFromServer();
+      });
+
     } else {
       this.router.navigate(['/login']);
     }

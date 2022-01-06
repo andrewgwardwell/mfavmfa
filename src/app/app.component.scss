@@ -12,6 +12,9 @@ body .ui-widget {
 body a{
     color: $link-color;
 }
+.ph-height{
+  min-height: 90vh;
+}
 h1,h2,h3,h4,h5{
     font-family: $quicksand !important;
     // font-weight: 900;
@@ -65,3 +68,13 @@ ul,ol,dl{
   border: 1px solid lightgrey;
 }
 
+.billing .mat-button-toggle-label-content{
+  color: #525151;
+  font-weight: 600;
+  font-family: Quicksand, serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+}
+.bg-dark{
+  background-color: #bbbbbb !important;
+}

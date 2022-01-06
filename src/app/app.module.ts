@@ -15,7 +15,7 @@ import {MessagesModule} from 'primeng/messages';
 import {MessageModule} from 'primeng/message';
 import {ToastModule} from 'primeng/toast';
 import {TableModule} from 'primeng/table';
-import { ChartsModule } from 'ng2-charts';
+import { ChartModule } from 'primeng/chart';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DragDropModule} from 'primeng/dragdrop';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
@@ -43,7 +43,7 @@ import { AddProgramComponent } from './shared/add-program/add-program.component'
 import { ProgramsService } from './services/programs.service';
 import { EntityService } from './services/entity.service';
 import { UserService } from './services/user.service';
-import { StripeService } from './services/stripe.service';
+import { DrupalStripeService } from './services/stripe.service';
 import { AuthService } from './services/auth/auth.service';
 import { CampaignService } from './services/campaign.service';
 import {MessageService} from 'primeng/api';
@@ -64,7 +64,13 @@ import { ProgramComponent } from './pages/program/program.component';
 import { HomeComponent } from './pages/home/home.component';
 import { PaymentComponent } from './pages/payment/payment.component';
 import { DiscoverComponent } from './pages/discover/discover.component';
-import { MatButtonModule, MatSelectModule } from '@angular/material';
+import { MatButtonModule, MatGridListModule, MatSelectModule } from '@angular/material';
+import { StripeTokenComponent } from './shared/stripe-token/stripe-token.component';
+import { NgxStripeModule } from 'ngx-stripe';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { TermsComponent } from './pages/terms/terms.component';
+import { FooterComponent } from './shared/footer/footer.component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -81,7 +87,10 @@ import { MatButtonModule, MatSelectModule } from '@angular/material';
     ProgramComponent,
     HomeComponent,
     PaymentComponent,
-    DiscoverComponent
+    DiscoverComponent,
+    StripeTokenComponent,
+    TermsComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
@@ -110,6 +119,7 @@ import { MatButtonModule, MatSelectModule } from '@angular/material';
     StripeCheckoutModule,
     MatSidenavModule,
     LeafletModule,
+    ChartModule,
     ChartsModule,
     NgbModule,
     MatMenuModule,
@@ -119,7 +129,10 @@ import { MatButtonModule, MatSelectModule } from '@angular/material';
     MatInputModule,
     MatCheckboxModule,
     MatSelectModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxStripeModule.forRoot('pk_test_3ywXbQTf6guYBAtjZGRzrgDI'),
+    MatButtonToggleModule,
+    MatGridListModule
   ],
   providers: [
     ProgramsService,
@@ -127,7 +140,7 @@ import { MatButtonModule, MatSelectModule } from '@angular/material';
     UserService,
     MessageService,
     AuthService,
-    StripeService,
+    DrupalStripeService,
     CampaignService,
     { provide: 'environment', useValue: environment },
     {

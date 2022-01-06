@@ -48,4 +48,8 @@ export class EntityService {
     let url = `${this.baseUrl}node/comparison?filter[uid.uid][value]=${uid}&include=field_programs`;
     return this.http.get(url);
   }
+  getOpenPeople(){
+    let url = `${this.baseUrl}custom/open-people`;
+    return this.http.get(url);
+  }
 }

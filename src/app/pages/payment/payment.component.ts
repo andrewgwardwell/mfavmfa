@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {StripeCheckoutLoader, StripeCheckoutHandler} from 'ng-stripe-checkout';
-import { StripeService } from '../../services/stripe.service';
+import { DrupalStripeService } from '../../services/stripe.service';
 import { UserService } from 'src/app/services/user.service';
 import { MfaUser } from 'src/app/shared/models/user/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
@@ -15,7 +15,7 @@ import { Router } from '@angular/router';
 export class PaymentComponent implements OnInit {
   private stripeCheckoutHandler: StripeCheckoutHandler;
   user: MfaUser;
-  constructor(private stripeCheckoutLoader: StripeCheckoutLoader, private stripe: StripeService, private router: Router, private userService: UserService, private auth: AuthService, private msg: MessageService) { }
+  constructor(private stripeCheckoutLoader: StripeCheckoutLoader, private stripe: DrupalStripeService, private router: Router, private userService: UserService, private auth: AuthService, private msg: MessageService) { }
 
   ngOnInit() {
   }

@@ -1,11 +1,68 @@
 @import "./../../styles/partials/variables";
+@import "./../../styles/partials/mixins";
 
+.bordered{
+  border: 2px solid #525151;
+}
+.lin-row{
+  background:linear-gradient(0deg, #f8f9fa 0%, rgba(9, 9, 121, 0) 34%, transparent 100%);
+}
+.has-bg-image{
+  @include breakpoint('lg-down'){
+    background-image: none !important;
+  }
+  background-size: 65%;
+  background-position: 155% -50%;
+  background-repeat: no-repeat;
+}
+.mat-grid-tile{
+  @include breakpoint('lg-down'){
+    overflow: unset;
+  }
+}
+.bordered--red{
+  border-color: $red;
+}
 .home-section{
-    padding: 60px;
-    min-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: $red;
-    color: white;
+  padding: 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  color: white;
+}
+.home-section--text{
+  background-color: transparent;
+  > *{
+    color: #525151 !important;
+  }
+
+}
+.container{
+  overflow: hidden;
+  position: relative;
+}
+
+.stats{
+
+    h2{
+      font-family: "Merriweather" !important;
+      font-size: 1.5rem;
+    }
+    font-family: "Quicksand";
+} 
+
+.home-program{
+  border: none;
+}
+
+.mat-card-avatar {
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100px;
+  border-radius: 0;
+}
+
+.home-person{
+  border-radius: 50% 50%;
 }

@@ -3,14 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import {environment} from '../../environments/environment.prod';
 @Injectable()
 
-export class StripeService {
+export class DrupalStripeService {
   baseUrl = `${environment.apiUrl}/mfastripe`;
 
   constructor(private http: HttpClient) {}
 
-  createSubscription(id:number, token:any){
+  createSubscription(id:number, info:any){
     let url = `${this.baseUrl}/${id}`;
-    let data = {token: token.id};
+    let data = {token: info.token, plan: info.plan};
     return this.http.post(url, data);
   }
   getInfo(id:number){
