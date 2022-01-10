@@ -23,7 +23,7 @@ export class PaymentComponent implements OnInit {
     const info = this.userService.getInfo();
     this.user = new MfaUser(info);
     this.stripeCheckoutLoader.createHandler({
-        key: 'pk_test_3ywXbQTf6guYBAtjZGRzrgDI',
+        key: 'pk_live_Yralrw5vIaiSy9CznPb0mbYw',
         token: (token) => {
           // likely needs to be different
             this.stripe.createSubscription(this.user.uid, token).subscribe((resp) =>{

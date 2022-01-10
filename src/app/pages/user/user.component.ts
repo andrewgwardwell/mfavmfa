@@ -43,7 +43,7 @@ export class UserComponent implements OnInit {
   }
   public ngAfterViewInit() {
     this.stripeCheckoutLoader.createHandler({
-        key: 'pk_test_3ywXbQTf6guYBAtjZGRzrgDI',
+        key: 'pk_live_Yralrw5vIaiSy9CznPb0mbYw',
         token: (token) => {
           // likely needs to be different
             this.stripeService.createSubscription(this.user.uid, token).subscribe((resp) =>{

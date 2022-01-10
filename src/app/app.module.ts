@@ -130,7 +130,7 @@ import { ChartsModule } from 'ng2-charts';
     MatCheckboxModule,
     MatSelectModule,
     MatButtonModule,
-    NgxStripeModule.forRoot('pk_test_3ywXbQTf6guYBAtjZGRzrgDI'),
+    NgxStripeModule.forRoot('pk_live_Yralrw5vIaiSy9CznPb0mbYw'),
     MatButtonToggleModule,
     MatGridListModule
   ],
