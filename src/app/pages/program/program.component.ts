@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import { EntityService } from '../../services/entity.service';
-import { Program } from 'src/app/shared/models/program/program';
+import { Program, SimpleProgram } from 'src/app/shared/models/program/program';
 import { ProgramsService} from 'src/app/services/programs.service';
 import { MessageService } from 'primeng/api';
 import { Comparison } from 'src/app/shared/models/comparison/comparison';
@@ -13,6 +13,7 @@ import { findIndex } from 'lodash';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Person } from 'src/app/shared/models/person/person';
 import { OpenLibraryService } from 'src/app/services/open-library.service';
+import { constant } from 'underscore';
 
 @Component({
   selector: 'app-program',
@@ -21,7 +22,7 @@ import { OpenLibraryService } from 'src/app/services/open-library.service';
 })
 export class ProgramComponent implements OnInit {
   public program: Program;
-  public programs: Array<any> = this.programsService.getProgramsFromStorage();
+  public programs: Array<Program>;
   public chartData: Array<any>;
   public user: MfaUser = new MfaUser(this.userService.getInfo());
   public comparison: Comparison;
@@ -62,8 +63,11 @@ export class ProgramComponent implements OnInit {
           let formatted = this.progLoadedFormatter(packet[1]);
           formatted.logoUrl = this.findLogo(formatted);
           this.program = new Program(formatted);
-          console.log(this.program);
           this.chartData = [{data:packet[1].data[0]}];
+        }
+        if(packet[0]){
+          const progs = packet[0];
+          this.programs = progs.included.map(p => new Program(p));
         }
       })
     )
@@ -156,18 +160,36 @@ export class ProgramComponent implements OnInit {
 
     // this adds a program to the list
     public goToNextStep() {
-      this.loading = true;
-      this.entityService
-      .getEntityById("node--program", this.program.id, this.relEnts)
-      .subscribe((response:any) => {
-        let programs = [...this.programs, response];
-        this.programs = programs;
-        this.programsService.setProgramsToStorage(programs);
-        this.loading = false;
-        this.savePrograms();
-      });
+      const progIncluded = this.isProgramIncluded();
+      if(!progIncluded){
+        this.loading = true;
+        this.entityService
+        .getEntityById("node--program", this.program.id, this.relEnts)
+        .subscribe((response:any) => {
+          const prog = new Program(response.data);
+          let programs = [...this.programs, prog];
+          this.programs = programs;
+          this.loading = false;
+          this.savePrograms();
+        });
+      } else {
+        this.removeProgram();
+      }
     }
-    
+
+    removeProgram() {
+      this.programs.forEach((program, ind) => {
+        if (this.program.id == program.id) {
+          this.programs.splice(ind, 1);
+        }
+      });
+      this.savePrograms();
+    }
+
+    isProgramIncluded(){
+      return this.programs.findIndex(p => p.id == this.program.id) > -1; 
+    }
+
     public savePrograms() {
       let comparison: Comparison;
       if(this.hasComparison){
@@ -178,13 +200,12 @@ export class ProgramComponent implements OnInit {
         });
         this.entityService.updatePrograms(this.compNid, comparison).subscribe(
           response => {
-            console.log(response);
             this.msg.add({
               severity: "success",
               summary: `Programs updated!`
             });
-            this.hasProgram = true;
             this.loading = false;
+            this.hasProgram = this.isProgramIncluded();
           },
           error => {
             this.loading = false;
@@ -203,13 +224,12 @@ export class ProgramComponent implements OnInit {
         this.loading = true;
         this.entityService.savePrograms(comparison).subscribe(
           response => {
-            console.log(response);
             this.msg.add({
               severity: "success",
               summary: `Programs saved!`
             });
-            this.hasProgram = true;
             this.loading = false;
+            this.hasProgram = this.isProgramIncluded();
           },
           error => {
             this.loading = false;
