@@ -65,7 +65,7 @@ export class ProgramComponent implements OnInit {
           this.program = new Program(formatted);
           this.chartData = [{data:packet[1].data[0]}];
         }
-        if(packet[0]){
+        if(packet[0] && packet[0].included){
           const progs = packet[0];
           this.programs = progs.included.map(p => new Program(p));
         }
