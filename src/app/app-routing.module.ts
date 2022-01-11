@@ -17,7 +17,7 @@ import { TermsComponent } from './pages/terms/terms.component';
 
 const routes: Routes = [
   {
-    path: 'introduction',
+    path: '',
     component: HomeComponent,
     data: { title: 'Mfa Vs. Mfa' }
   },
@@ -67,8 +67,7 @@ const routes: Routes = [
     path: 'terms',
     component: TermsComponent,
     data: { title: 'Terms of Use' }
-  },
-  { path: "", redirectTo: '/introduction', pathMatch: "full" },
+  }
 ];
 
 @NgModule({
