@@ -237,7 +237,6 @@ export class ProgramComponent implements OnInit {
               severity: "error",
               summary: `There was an issue saving your programs!`
             });
-            console.log(error);
           }
         );
       }

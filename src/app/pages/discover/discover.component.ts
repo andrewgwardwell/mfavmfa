@@ -95,7 +95,6 @@ export class DiscoverComponent implements OnInit {
         this.residency_types = new Taxonomy(response[1]);
       },
       error => {
-        console.log(error);
         this.loading = false;
       }
     );
@@ -172,7 +171,6 @@ export class DiscoverComponent implements OnInit {
             severity: "error",
             summary: `There was an issue saving your programs!`
           });
-          console.log(error);
         }
       );
     }

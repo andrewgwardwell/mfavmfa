@@ -120,7 +120,10 @@ export class ProgramsComponent implements OnInit {
           }
         },
         error => {
-          console.log(error);
+          this.msg.add({
+            severity: "error",
+            summary: `There was an issue retrieving your programs! ${error.message}`
+          });
         }
       );
   }
@@ -163,8 +166,11 @@ export class ProgramsComponent implements OnInit {
         this.removeProgramsFromList();
       },
       error => {
-        console.log(error);
         // this.loading = false;
+        this.msg.add({
+          severity: "error",
+          summary: `There was an issue retrieving your programs!`
+        });
       }
     );
   }
@@ -222,7 +228,6 @@ export class ProgramsComponent implements OnInit {
               : "";
           response.extras = this.bundleIncluded(response);
           let programs = [...this.programs, response];
-          console.log(programs);
           this.programs = programs;
           this.peoplePrograms = cloneDeep(programs);
           // this.programsService.setProgramsToStorage(programs.map(prog => new Program(prog.data)));
@@ -366,7 +371,6 @@ export class ProgramsComponent implements OnInit {
       });
       this.entityService.updatePrograms(this.compNid, comparison).subscribe(
         response => {
-          console.log(response);
           this.msg.add({
             severity: "success",
             summary: `Programs updated!`
@@ -379,7 +383,6 @@ export class ProgramsComponent implements OnInit {
             severity: "error",
             summary: `There was an issue saving your programs!`
           });
-          console.log(error);
         }
       );
     } else {
@@ -391,7 +394,6 @@ export class ProgramsComponent implements OnInit {
       this.loading = true;
       this.entityService.savePrograms(comparison).subscribe(
         response => {
-          console.log(response);
           this.msg.add({
             severity: "success",
             summary: `Programs saved!`
@@ -404,7 +406,6 @@ export class ProgramsComponent implements OnInit {
             severity: "error",
             summary: `There was an issue saving your programs!`
           });
-          console.log(error);
         }
       );
     }
